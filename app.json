@@ -1,6 +1,6 @@
 {
   "name": "beyondequity",
-  "slug": "beyondequity",
+  "slug": "beyond-equity",
   "scheme": "beyondequity",
   "version": "1.0.0",
   "orientation": "portrait",
@@ -62,6 +62,10 @@
   "extra": {
     "ignite": {
       "version": "11.3.2"
+    },
+    "eas": {
+      "projectId": "973eeed3-8339-4a72-9b1f-cb9c52ad493e"
     }
-  }
+  },
+  "owner": "magiccabinet"
 }
