@@ -1,38 +1,59 @@
+/**
+ * Color palette based on the BeyondAlpha design system from Figma.
+ * Uses Slate color scale for neutrals and brand teal (#7EA1C4) as primary accent.
+ */
 const palette = {
+  // Slate scale from Figma design system
   neutral100: "#FFFFFF",
-  neutral200: "#F4F2F1",
-  neutral300: "#D7CEC9",
-  neutral400: "#B6ACA6",
-  neutral500: "#978F8A",
-  neutral600: "#564E4A",
-  neutral700: "#3C3836",
-  neutral800: "#191015",
-  neutral900: "#000000",
+  neutral200: "#F1F5F9", // slate/100
+  neutral300: "#E2E8F0", // slate/200
+  neutral400: "#CBD5E1", // slate/300
+  neutral500: "#94A3B8", // slate/400
+  neutral600: "#64748B", // slate/500
+  neutral700: "#475569", // slate/600
+  neutral800: "#334155", // slate/700
+  neutral900: "#0F172A", // slate/900 - primary text color
 
-  primary100: "#F4E0D9",
-  primary200: "#E8C1B4",
-  primary300: "#DDA28E",
-  primary400: "#D28468",
-  primary500: "#C76542",
-  primary600: "#A54F31",
+  // Brand teal - primary accent from BeyondAlpha
+  primary100: "#E0EBF2",
+  primary200: "#C1D7E5",
+  primary300: "#A2C3D8",
+  primary400: "#7EA1C4", // Brand color from assets
+  primary500: "#5B8AB5",
+  primary600: "#4A7A9E",
 
-  secondary100: "#DCDDE9",
-  secondary200: "#BCC0D6",
-  secondary300: "#9196B9",
-  secondary400: "#626894",
-  secondary500: "#41476E",
+  // Secondary - muted slate
+  secondary100: "#F8FAFC",
+  secondary200: "#F1F5F9",
+  secondary300: "#E2E8F0",
+  secondary400: "#CBD5E1",
+  secondary500: "#94A3B8",
 
-  accent100: "#FFEED4",
-  accent200: "#FFE1B2",
-  accent300: "#FDD495",
-  accent400: "#FBC878",
-  accent500: "#FFBB50",
+  // Accent - warm gold/amber for highlights
+  accent100: "#FEF3C7",
+  accent200: "#FDE68A",
+  accent300: "#FCD34D",
+  accent400: "#FBBF24",
+  accent500: "#F59E0B",
 
-  angry100: "#F2D6CD",
-  angry500: "#C03403",
+  // Asset type badge colors from Figma
+  badgeTeal: "#7EA1C4", // AVX - Concept
+  badgeGray: "#6B7280", // IPX - Internal
+  badgeSage: "#A3B18A", // IPL - Legacy
+  badgeCoral: "#E07A5F", // IPR - Rehab
+  badgeMint: "#81B29A", // JV1 - Joint Venture
 
-  overlay20: "rgba(25, 16, 21, 0.2)",
-  overlay50: "rgba(25, 16, 21, 0.5)",
+  // Crypto brand colors
+  cryptoBitcoin: "#F7931A",
+  cryptoEthereum: "#627EEA",
+
+  // Status colors
+  angry100: "#FEE2E2",
+  angry500: "#EF4444",
+
+  // Overlays
+  overlay20: "rgba(15, 23, 42, 0.2)",
+  overlay50: "rgba(15, 23, 42, 0.5)",
 } as const
 
 export const colors = {
@@ -48,28 +69,36 @@ export const colors = {
   transparent: "rgba(0, 0, 0, 0)",
   /**
    * The default text color in many components.
+   * Using slate/900 from Figma design system.
    */
-  text: palette.neutral800,
+  text: palette.neutral900,
   /**
    * Secondary text information.
+   * Using slate/600 from Figma design system.
    */
-  textDim: palette.neutral600,
+  textDim: palette.neutral700,
+  /**
+   * Subtle text for helper text and captions.
+   * Using slate/500 from Figma design system.
+   */
+  textSubtle: palette.neutral600,
   /**
    * The default color of the screen background.
    */
-  background: palette.neutral200,
+  background: palette.neutral100,
   /**
    * The default border color.
+   * Using slate/200 from Figma design system.
    */
-  border: palette.neutral400,
+  border: palette.neutral300,
   /**
-   * The main tinting color.
+   * The main tinting color - brand teal.
    */
-  tint: palette.primary500,
+  tint: palette.primary400,
   /**
    * The inactive tinting color.
    */
-  tintInactive: palette.neutral300,
+  tintInactive: palette.neutral400,
   /**
    * A subtle color used for lines.
    */

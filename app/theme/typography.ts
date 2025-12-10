@@ -1,7 +1,17 @@
-// TODO: write documentation about fonts and typography along with guides on how to add custom fonts in own
-// markdown file and add links from here
+/**
+ * Typography configuration using Inter font family.
+ * Based on the BeyondAlpha design system from Figma.
+ */
 
 import { Platform } from "react-native"
+import {
+  Inter_300Light as interLight,
+  Inter_400Regular as interRegular,
+  Inter_500Medium as interMedium,
+  Inter_600SemiBold as interSemiBold,
+  Inter_700Bold as interBold,
+  Inter_800ExtraBold as interExtraBold,
+} from "@expo-google-fonts/inter"
 import {
   SpaceGrotesk_300Light as spaceGroteskLight,
   SpaceGrotesk_400Regular as spaceGroteskRegular,
@@ -11,6 +21,14 @@ import {
 } from "@expo-google-fonts/space-grotesk"
 
 export const customFontsToLoad = {
+  // Inter fonts (primary)
+  interLight,
+  interRegular,
+  interMedium,
+  interSemiBold,
+  interBold,
+  interExtraBold,
+  // Space Grotesk fonts (secondary/display)
   spaceGroteskLight,
   spaceGroteskRegular,
   spaceGroteskMedium,
@@ -19,8 +37,17 @@ export const customFontsToLoad = {
 }
 
 const fonts = {
+  inter: {
+    // Cross-platform Google font - Primary font from Figma design system.
+    light: "interLight",
+    normal: "interRegular",
+    medium: "interMedium",
+    semiBold: "interSemiBold",
+    bold: "interBold",
+    extraBold: "interExtraBold",
+  },
   spaceGrotesk: {
-    // Cross-platform Google font.
+    // Cross-platform Google font - Secondary/display font.
     light: "spaceGroteskLight",
     normal: "spaceGroteskRegular",
     medium: "spaceGroteskMedium",
@@ -37,6 +64,11 @@ const fonts = {
   courier: {
     // iOS only font.
     normal: "Courier",
+  },
+  menlo: {
+    // iOS only font - For inline code.
+    normal: "Menlo",
+    bold: "Menlo-Bold",
   },
   sansSerif: {
     // Android only font.
@@ -58,14 +90,17 @@ export const typography = {
   fonts,
   /**
    * The primary font. Used in most places.
+   * Inter - Clean, modern sans-serif from the BeyondAlpha design system.
    */
-  primary: fonts.spaceGrotesk,
+  primary: fonts.inter,
   /**
    * An alternate font used for perhaps titles and stuff.
+   * Space Grotesk - Geometric display font for headings.
    */
-  secondary: Platform.select({ ios: fonts.helveticaNeue, android: fonts.sansSerif }),
+  secondary: fonts.spaceGrotesk,
   /**
    * Lets get fancy with a monospace font!
+   * Menlo on iOS, monospace on Android.
    */
-  code: Platform.select({ ios: fonts.courier, android: fonts.monospace }),
+  code: Platform.select({ ios: fonts.menlo, android: fonts.monospace }),
 }

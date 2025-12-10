@@ -35,6 +35,9 @@ import * as storage from "./utils/storage"
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
+// Check for Storybook mode at module level (before component renders)
+const STORYBOOK_ENABLED = process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true"
+
 // Web linking configuration
 const prefix = Linking.createURL("/")
 const config = {
@@ -62,6 +65,21 @@ const config = {
  * @returns {JSX.Element} The rendered `App` component.
  */
 export function App() {
+  // Storybook mode - render Storybook UI instead of app
+  // This check uses a module-level constant to avoid hooks issues
+  if (STORYBOOK_ENABLED) {
+    const StorybookUI = require("../.rnstorybook").default
+    return <StorybookUI />
+  }
+
+  return <AppContent />
+}
+
+/**
+ * The main app content with all hooks.
+ * Separated to allow Storybook conditional rendering without breaking hooks rules.
+ */
+function AppContent() {
   const {
     initialNavigationState,
     onNavigationStateChange,

@@ -1,5 +1,6 @@
 /* eslint-env node */
 // Learn more https://docs.expo.io/guides/customizing-metro
+const { withStorybook } = require("@storybook/react-native/metro/withStorybook")
 const { getDefaultConfig } = require("expo/metro-config")
 
 /** @type {import('expo/metro-config').MetroConfig} */
@@ -28,4 +29,8 @@ config.resolver.unstable_conditionNames = ["require", "default", "browser"]
 // such as Firebase that use the extension cjs.
 config.resolver.sourceExts.push("cjs")
 
-module.exports = config
+// Wrap with Storybook - enabled flag strips it from production bundles
+module.exports = withStorybook(config, {
+  enabled: process.env.EXPO_PUBLIC_STORYBOOK_ENABLED === "true",
+  configPath: "./.rnstorybook",
+})
