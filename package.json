@@ -110,5 +110,8 @@
         "react-native-worklets"
       ]
     }
+  },
+  "patchedDependencies": {
+    "storybook@10.1.7": "patches/storybook@10.1.7.patch"
   }
 }

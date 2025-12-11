@@ -1,0 +1,28 @@
+diff --git a/dist/_node-chunks/chunk-XLHRIY7O.js b/dist/_node-chunks/chunk-XLHRIY7O.js
+index 0834ced0f2f47bd0568dd7bbee151f8726305b8d..c867366299e234688444c85c26bf0b91129615f0 100644
+--- a/dist/_node-chunks/chunk-XLHRIY7O.js
++++ b/dist/_node-chunks/chunk-XLHRIY7O.js
+@@ -712,9 +712,20 @@ import { statSync as statSync2 } from "node:fs";
+ import { createRequire, register } from "node:module";
+ import { win32 } from "node:path/win32";
+ import { fileURLToPath as fileURLToPath2, pathToFileURL as pathToFileURL2 } from "node:url";
+-var importMetaResolve = (...args) => typeof import.meta.resolve != "function" && process.env.VITEST === "true" ? (console.warn(
+-  "importMetaResolve from within Storybook is being used in a Vitest test, but it shouldn't be. Please report this at https://github.com/storybookjs/storybook/issues/new?template=bug_report.yml"
+-), pathToFileURL2(args[0]).href) : import.meta.resolve(...args), resolvePackageDir = (pkg, parent) => {
++var importMetaResolve = (...args) => {
++  // Polyfill for Node.js 24+ where import.meta.resolve may not be available as a function
++  if (typeof import.meta.resolve !== "function") {
++    const baseUrl = import.meta.url || pathToFileURL2(process.cwd() + '/package.json').href;
++    const req = createRequire(baseUrl);
++    try {
++      const resolved = req.resolve(args[0]);
++      return pathToFileURL2(resolved).href;
++    } catch (e) {
++      return pathToFileURL2(args[0]).href;
++    }
++  }
++  return import.meta.resolve(...args);
++}, resolvePackageDir = (pkg, parent) => {
+   try {
+     return dirname(fileURLToPath2(importMetaResolve(join(pkg, "package.json"), parent)));
+   } catch {
