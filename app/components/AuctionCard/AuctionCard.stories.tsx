@@ -117,3 +117,39 @@ export const WithPress: Story = {
     onToggleWatch: () => alert("Toggle watch!"),
   },
 }
+
+export const Compact: Story = {
+  args: {
+    title: "Bluefin Tuna - Grade A",
+    description: "45.5kg, Fresh from Tsukiji Market",
+    endDate: new Date(Date.now() + 2 * 60 * 60 * 1000),
+    currentBid: 1250,
+    bidCount: 12,
+    watcherCount: 45,
+    sellerName: "Yamamoto Fishing",
+    sellerRating: 4.8,
+    compact: true,
+  },
+}
+
+export const CompactGrid: Story = {
+  decorators: [
+    (Story) => (
+      <View style={{ padding: 16, flexDirection: "row", gap: 12 }}>
+        <View style={{ flex: 1 }}>
+          <Story />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Story />
+        </View>
+      </View>
+    ),
+  ],
+  args: {
+    title: "Premium Otoro",
+    endDate: new Date(Date.now() + 30 * 60 * 1000),
+    currentBid: 2500,
+    bidCount: 8,
+    compact: true,
+  },
+}

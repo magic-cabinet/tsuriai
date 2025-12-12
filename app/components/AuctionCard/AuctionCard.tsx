@@ -95,6 +95,10 @@ export interface AuctionCardProps {
    */
   onToggleWatch?: () => void
   /**
+   * Compact mode for grid layouts - smaller image, condensed content
+   */
+  compact?: boolean
+  /**
    * Style override for container
    */
   style?: StyleProp<ViewStyle>
@@ -149,6 +153,7 @@ export function AuctionCard(props: AuctionCardProps) {
     hasBid = false,
     onPress,
     onToggleWatch,
+    compact = false,
     style: $styleOverride,
   } = props
 
@@ -166,6 +171,8 @@ export function AuctionCard(props: AuctionCardProps) {
   const isEnded = endDate.getTime() < Date.now()
   const isUpcoming = startDate && startDate.getTime() > Date.now()
 
+  const imageHeight = compact ? 100 : 160
+
   const content = (
     <Card
       style={$styleOverride}
@@ -174,10 +181,10 @@ export function AuctionCard(props: AuctionCardProps) {
           {/* Image and badges */}
           <View style={themed($imageSection)}>
             {image ? (
-              <Image source={image} style={{ width: "100%", height: 160, borderRadius: 8 }} resizeMode="cover" />
+              <Image source={image} style={{ width: "100%", height: imageHeight, borderRadius: 8 }} resizeMode="cover" />
             ) : (
-              <View style={themed($imagePlaceholder)}>
-                <Icon icon="components" size={32} color={theme.colors.palette.sand400} />
+              <View style={[themed($imagePlaceholder), { height: imageHeight }]}>
+                <Icon icon="components" size={compact ? 24 : 32} color={theme.colors.palette.sand400} />
               </View>
             )}
             <View style={themed($badgeContainer)}>
@@ -210,13 +217,19 @@ export function AuctionCard(props: AuctionCardProps) {
 
           {/* Info section */}
           <View style={themed($infoSection)}>
-            <Text text={title} tx={titleTx} preset="bold" style={themed($title)} numberOfLines={2} />
-            {description && (
+            <Text
+              text={title}
+              tx={titleTx}
+              preset={compact ? "formLabel" : "bold"}
+              style={themed($title)}
+              numberOfLines={compact ? 1 : 2}
+            />
+            {description && !compact && (
               <Text text={description} size="sm" style={themed($description)} numberOfLines={1} />
             )}
 
-            {/* Seller info */}
-            {sellerName && (
+            {/* Seller info - hide in compact mode */}
+            {sellerName && !compact && (
               <View style={themed($sellerRow)}>
                 <Text text={sellerName} size="xs" style={themed($sellerName)} />
                 {sellerRating !== undefined && (
@@ -229,11 +242,15 @@ export function AuctionCard(props: AuctionCardProps) {
             )}
 
             {/* Price and timer section */}
-            <View style={themed($priceTimerSection)}>
+            <View style={themed(compact ? $priceTimerSectionCompact : $priceTimerSection)}>
               <View style={themed($priceContainer)}>
-                <Text text="Current Bid" size="xs" style={themed($priceLabel)} />
-                <Text text={formatPrice(currentBid)} preset="bold" style={themed($currentBid)} />
-                {reservePrice !== undefined && !reserveMet && (
+                {!compact && <Text text="Current Bid" size="xs" style={themed($priceLabel)} />}
+                <Text
+                  text={formatPrice(currentBid)}
+                  preset="bold"
+                  style={themed(compact ? $currentBidCompact : $currentBid)}
+                />
+                {reservePrice !== undefined && !reserveMet && !compact && (
                   <Text text="Reserve not met" size="xs" style={themed($reserveText)} />
                 )}
               </View>
@@ -241,20 +258,20 @@ export function AuctionCard(props: AuctionCardProps) {
                 <AuctionTimer
                   endDate={endDate}
                   startDate={startDate}
-                  size="small"
+                  size={compact ? "xs" : "small"}
                   showPhaseBadge={false}
                   showIcon={false}
                 />
               )}
             </View>
 
-            {/* Stats row */}
+            {/* Stats row - simplified in compact mode */}
             <View style={themed($statsRow)}>
               <View style={themed($stat)}>
-                <Icon icon="components" size={14} color={theme.colors.palette.sand500} />
-                <Text text={`${bidCount} bids`} size="xs" style={themed($statText)} />
+                <Icon icon="components" size={compact ? 12 : 14} color={theme.colors.palette.sand500} />
+                <Text text={compact ? `${bidCount}` : `${bidCount} bids`} size="xs" style={themed($statText)} />
               </View>
-              {watcherCount !== undefined && (
+              {watcherCount !== undefined && !compact && (
                 <View style={themed($stat)}>
                   <Icon icon="view" size={14} color={theme.colors.palette.sand500} />
                   <Text text={`${watcherCount} watching`} size="xs" style={themed($statText)} />
@@ -361,6 +378,13 @@ const $priceTimerSection: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderTopColor: colors.palette.sand300,
 })
 
+const $priceTimerSectionCompact: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginTop: spacing.xs,
+})
+
 const $priceContainer: ThemedStyle<ViewStyle> = () => ({})
 
 const $priceLabel: ThemedStyle<TextStyle> = ({ colors }) => ({
@@ -369,6 +393,11 @@ const $priceLabel: ThemedStyle<TextStyle> = ({ colors }) => ({
 
 const $currentBid: ThemedStyle<TextStyle> = ({ colors }) => ({
   fontSize: 20,
+  color: colors.palette.ocean600,
+})
+
+const $currentBidCompact: ThemedStyle<TextStyle> = ({ colors }) => ({
+  fontSize: 16,
   color: colors.palette.ocean600,
 })
 

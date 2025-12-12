@@ -34,7 +34,7 @@ export interface CountdownTimerProps {
   /**
    * Size variant
    */
-  size?: "small" | "medium" | "large"
+  size?: "xs" | "small" | "medium" | "large"
   /**
    * Optional style override
    */
@@ -155,23 +155,33 @@ export function CountdownTimer({
   // Size-based styles
   const sizeStyles = useMemo(() => {
     switch (size) {
+      case "xs":
+        return {
+          number: { fontSize: 12, lineHeight: 14 },
+          label: { fontSize: 8, lineHeight: 10 },
+          gap: 2,
+          hideLabels: true,
+        }
       case "small":
         return {
           number: { fontSize: 20, lineHeight: 28 },
           label: { fontSize: 10, lineHeight: 14 },
           gap: 8,
+          hideLabels: false,
         }
       case "large":
         return {
           number: { fontSize: 36, lineHeight: 44 },
           label: { fontSize: 14, lineHeight: 20 },
           gap: 16,
+          hideLabels: false,
         }
       default:
         return {
           number: { fontSize: 28, lineHeight: 36 },
           label: { fontSize: 12, lineHeight: 16 },
           gap: 12,
+          hideLabels: false,
         }
     }
   }, [size])
@@ -199,10 +209,13 @@ export function CountdownTimer({
 
   // Show days only if > 0
   const showDays = timeRemaining.days > 0
+  const hideLabels = sizeStyles.hideLabels
+
+  const containerSizeStyle = size === "xs" ? styles.containerXs : styles.container
 
   return (
     <Animated.View
-      style={[styles.container, containerStyle, animatedStyle, style]}
+      style={[containerSizeStyle, containerStyle, animatedStyle, style]}
       entering={FadeIn.duration(300)}
     >
       {showDays && (
@@ -213,8 +226,10 @@ export function CountdownTimer({
           labelColor={labelColor}
           numberStyle={sizeStyles.number}
           labelStyle={sizeStyles.label}
+          hideLabel={hideLabels}
         />
       )}
+      {showDays && <TimeSeparator color={textColor} size={sizeStyles.number.fontSize} />}
       <TimeUnit
         value={timeRemaining.hours}
         label="HRS"
@@ -222,6 +237,7 @@ export function CountdownTimer({
         labelColor={labelColor}
         numberStyle={sizeStyles.number}
         labelStyle={sizeStyles.label}
+        hideLabel={hideLabels}
       />
       <TimeSeparator color={textColor} size={sizeStyles.number.fontSize} />
       <TimeUnit
@@ -231,6 +247,7 @@ export function CountdownTimer({
         labelColor={labelColor}
         numberStyle={sizeStyles.number}
         labelStyle={sizeStyles.label}
+        hideLabel={hideLabels}
       />
       <TimeSeparator color={textColor} size={sizeStyles.number.fontSize} />
       <TimeUnit
@@ -240,6 +257,7 @@ export function CountdownTimer({
         labelColor={labelColor}
         numberStyle={sizeStyles.number}
         labelStyle={sizeStyles.label}
+        hideLabel={hideLabels}
       />
     </Animated.View>
   )
@@ -252,6 +270,7 @@ interface TimeUnitProps {
   labelColor: string
   numberStyle: { fontSize: number; lineHeight: number }
   labelStyle: { fontSize: number; lineHeight: number }
+  hideLabel?: boolean
 }
 
 function TimeUnit({
@@ -261,6 +280,7 @@ function TimeUnit({
   labelColor,
   numberStyle,
   labelStyle,
+  hideLabel = false,
 }: TimeUnitProps) {
   const formattedValue = value.toString().padStart(2, "0")
 
@@ -278,16 +298,18 @@ function TimeUnit({
           }}
         />
       </Animated.View>
-      <Text
-        text={label}
-        weight="medium"
-        style={{
-          color: labelColor,
-          fontSize: labelStyle.fontSize,
-          lineHeight: labelStyle.lineHeight,
-          letterSpacing: 1,
-        }}
-      />
+      {!hideLabel && (
+        <Text
+          text={label}
+          weight="medium"
+          style={{
+            color: labelColor,
+            fontSize: labelStyle.fontSize,
+            lineHeight: labelStyle.lineHeight,
+            letterSpacing: 1,
+          }}
+        />
+      )}
     </View>
   )
 }
@@ -320,6 +342,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 16,
     paddingVertical: 12,
+  },
+  containerXs: {
+    alignItems: "center",
+    alignSelf: "flex-start",
+    borderRadius: 4,
+    flexDirection: "row",
+    paddingHorizontal: 6,
+    paddingVertical: 3,
   },
   timeUnit: {
     alignItems: "center",

@@ -118,10 +118,12 @@ export function AuctionList(props: AuctionListProps) {
 
   const renderItem = ({ item, index }: { item: Omit<AuctionCardProps, "onPress" | "onToggleWatch">; index: number }) => {
     const auctionId = `auction-${index}`
+    const isGridMode = numColumns === 2
     return (
-      <View style={numColumns === 2 ? themed($gridItem) : themed($listItem)}>
+      <View style={isGridMode ? themed($gridItem) : themed($listItem)}>
         <AuctionCard
           {...item}
+          compact={isGridMode}
           onPress={onAuctionPress ? () => onAuctionPress(auctionId, index) : undefined}
           onToggleWatch={onToggleWatch ? () => onToggleWatch(auctionId, index) : undefined}
         />
@@ -262,4 +264,5 @@ const $gridItem: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 const $columnWrapper: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingHorizontal: spacing.sm,
   gap: spacing.sm,
+  marginBottom: spacing.sm,
 })

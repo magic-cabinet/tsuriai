@@ -32,7 +32,7 @@ export interface AuctionTimerProps {
    * Size variant
    * @default "medium"
    */
-  size?: "small" | "medium" | "large"
+  size?: "xs" | "small" | "medium" | "large"
   /**
    * Whether to show the phase badge
    * @default true
@@ -107,7 +107,7 @@ export function AuctionTimer(props: AuctionTimerProps) {
     $styleOverride,
   ]
 
-  const iconSize = size === "small" ? 16 : size === "large" ? 24 : 20
+  const iconSize = size === "xs" ? 12 : size === "small" ? 16 : size === "large" ? 24 : 20
   const iconColor =
     phase === "ending_soon"
       ? theme.colors.palette.coral500
@@ -180,7 +180,11 @@ const $container: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   borderColor: colors.palette.sand300,
 })
 
-const $sizeStyles: Record<"small" | "medium" | "large", ThemedStyle<ViewStyle>> = {
+const $sizeStyles: Record<"xs" | "small" | "medium" | "large", ThemedStyle<ViewStyle>> = {
+  xs: ({ spacing }) => ({
+    padding: spacing.xxs,
+    borderRadius: spacing.xs,
+  }),
   small: ({ spacing }) => ({
     padding: spacing.xs,
   }),

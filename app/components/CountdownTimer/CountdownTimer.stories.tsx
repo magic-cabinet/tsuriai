@@ -98,7 +98,7 @@ const meta = {
   argTypes: {
     size: {
       control: "select",
-      options: ["small", "medium", "large"],
+      options: ["xs", "small", "medium", "large"],
       description: "Size variant",
     },
   },
@@ -190,6 +190,14 @@ export const Expired: Story = {
 // =============================================================================
 // SIZE VARIANTS
 // =============================================================================
+
+export const SizeXs: Story = {
+  name: "Size: XS (Compact)",
+  args: {
+    targetDate: addTime(0, 2, 30, 45),
+    size: "xs",
+  },
+}
 
 export const SizeSmall: Story = {
   name: "Size: Small",
@@ -298,6 +306,10 @@ export const AllSizes: Story = {
         <Text size="xs" weight="medium" text="SIZE VARIANTS" style={styles.sectionLabel} />
         <View style={styles.divider} />
         <View style={{ gap: 20 }}>
+          <View style={{ gap: 8 }}>
+            <Text size="xxs" text="XS (COMPACT - NO LABELS)" style={styles.sectionLabel} />
+            <CountdownTimer targetDate={addTime(0, 5, 30, 15)} size="xs" />
+          </View>
           <View style={{ gap: 8 }}>
             <Text size="xxs" text="SMALL" style={styles.sectionLabel} />
             <CountdownTimer targetDate={addTime(0, 5, 30, 15)} size="small" />
