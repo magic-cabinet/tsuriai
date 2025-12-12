@@ -1,4 +1,4 @@
-import { FlatList, StyleProp, View, ViewStyle } from "react-native"
+import { FlatList, StyleProp, TextStyle, View, ViewStyle } from "react-native"
 
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
@@ -71,12 +71,12 @@ export interface AuctionListProps {
   style?: StyleProp<ViewStyle>
 }
 
-const FILTER_OPTIONS: { id: AuctionFilter; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "active", label: "Active" },
-  { id: "ending_soon", label: "Ending Soon" },
-  { id: "upcoming", label: "Upcoming" },
-  { id: "ended", label: "Ended" },
+const FILTER_OPTIONS: { key: AuctionFilter; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "active", label: "Active" },
+  { key: "ending_soon", label: "Ending Soon" },
+  { key: "upcoming", label: "Upcoming" },
+  { key: "ended", label: "Ended" },
 ]
 
 /**
@@ -162,10 +162,10 @@ export function AuctionList(props: AuctionListProps) {
           <View style={themed($filterContainer)}>
             <FilterBar
               filters={FILTER_OPTIONS}
-              selectedFilters={[activeFilter]}
-              onFilterChange={(filters) => {
-                if (onFilterChange && filters.length > 0) {
-                  onFilterChange(filters[0] as AuctionFilter)
+              selectedKeys={[activeFilter]}
+              onChange={(keys: string[]) => {
+                if (onFilterChange && keys.length > 0) {
+                  onFilterChange(keys[0] as AuctionFilter)
                 }
               }}
               multiSelect={false}
@@ -233,7 +233,7 @@ const $loadingContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   gap: spacing.md,
 })
 
-const $loadingText: ThemedStyle<ViewStyle> = ({ colors }) => ({
+const $loadingText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand500,
 })
 

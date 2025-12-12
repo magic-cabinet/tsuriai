@@ -84,11 +84,11 @@ export interface FishInventoryListProps {
   style?: StyleProp<ViewStyle>
 }
 
-const FILTER_OPTIONS: { id: FishFilter; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "available", label: "Available" },
-  { id: "sold", label: "Sold" },
-  { id: "reserved", label: "Reserved" },
+const FILTER_OPTIONS: { key: FishFilter; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "available", label: "Available" },
+  { key: "sold", label: "Sold" },
+  { key: "reserved", label: "Reserved" },
 ]
 
 /**
@@ -193,10 +193,10 @@ export function FishInventoryList(props: FishInventoryListProps) {
           <View style={themed($filterContainer)}>
             <FilterBar
               filters={FILTER_OPTIONS}
-              selectedFilters={[activeFilter]}
-              onFilterChange={(filters) => {
-                if (onFilterChange && filters.length > 0) {
-                  onFilterChange(filters[0] as FishFilter)
+              selectedKeys={[activeFilter]}
+              onChange={(keys: string[]) => {
+                if (onFilterChange && keys.length > 0) {
+                  onFilterChange(keys[0] as FishFilter)
                 }
               }}
               multiSelect={false}

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ScrollView, StyleProp, TextStyle, View, ViewStyle } from "react-native"
+import { Pressable, ScrollView, StyleProp, TextStyle, View, ViewStyle } from "react-native"
 
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
@@ -9,7 +9,7 @@ import { TextField } from "../TextField"
 import { Button } from "../Button"
 import { Card } from "../Card"
 import { Badge } from "../Badge"
-import { Toggle } from "../Toggle"
+import { Switch } from "../Toggle/Switch"
 
 type FishGrade = "A" | "B" | "C" | "premium" | "standard"
 type FishFreshness = "live" | "fresh" | "frozen" | "processed"
@@ -192,13 +192,13 @@ export function FishDetailsForm(props: FishDetailsFormProps) {
               <Text text="Grade" size="sm" style={themed($fieldLabel)} />
               <View style={themed($optionsRow)}>
                 {GRADE_OPTIONS.map((option) => (
-                  <Badge
-                    key={option.value}
-                    text={option.label}
-                    status={formData.grade === option.value ? "success" : "neutral"}
-                    badgeStyle={formData.grade === option.value ? "solid" : "outline"}
-                    onPress={() => updateField("grade", option.value)}
-                  />
+                  <Pressable key={option.value} onPress={() => updateField("grade", option.value)}>
+                    <Badge
+                      text={option.label}
+                      status={formData.grade === option.value ? "success" : "neutral"}
+                      badgeStyle={formData.grade === option.value ? "solid" : "outline"}
+                    />
+                  </Pressable>
                 ))}
               </View>
             </View>
@@ -207,13 +207,13 @@ export function FishDetailsForm(props: FishDetailsFormProps) {
               <Text text="Freshness" size="sm" style={themed($fieldLabel)} />
               <View style={themed($optionsRow)}>
                 {FRESHNESS_OPTIONS.map((option) => (
-                  <Badge
-                    key={option.value}
-                    text={option.label}
-                    status={formData.freshness === option.value ? "info" : "neutral"}
-                    badgeStyle={formData.freshness === option.value ? "solid" : "outline"}
-                    onPress={() => updateField("freshness", option.value)}
-                  />
+                  <Pressable key={option.value} onPress={() => updateField("freshness", option.value)}>
+                    <Badge
+                      text={option.label}
+                      status={formData.freshness === option.value ? "info" : "neutral"}
+                      badgeStyle={formData.freshness === option.value ? "solid" : "outline"}
+                    />
+                  </Pressable>
                 ))}
               </View>
             </View>
@@ -257,8 +257,7 @@ export function FishDetailsForm(props: FishDetailsFormProps) {
                 <Text text="Sustainability Certified" size="sm" weight="medium" />
                 <Text text="This fish is certified sustainable" size="xs" style={themed($toggleDescription)} />
               </View>
-              <Toggle
-                variant="switch"
+              <Switch
                 value={formData.sustainabilityCertified}
                 onValueChange={(v) => updateField("sustainabilityCertified", v)}
               />

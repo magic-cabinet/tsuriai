@@ -1,4 +1,4 @@
-import { FlatList, StyleProp, View, ViewStyle } from "react-native"
+import { FlatList, StyleProp, TextStyle, View, ViewStyle } from "react-native"
 
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
@@ -87,7 +87,7 @@ export function BidList(props: BidListProps) {
   const renderItem = ({ item, index }: { item: Omit<BidListItemProps, "onPress">; index: number }) => (
     <BidListItem
       {...item}
-      onPress={onBidPress ? () => onBidPress(item.id || `bid-${index}`, index) : undefined}
+      onPress={onBidPress ? () => onBidPress(`bid-${index}`, index) : undefined}
     />
   )
 
@@ -136,7 +136,7 @@ export function BidList(props: BidListProps) {
               <Text text={group.title} size="xs" weight="medium" style={themed($sectionTitle)} />
             </View>
             {group.data.map((bid, index) => (
-              <View key={bid.id || `bid-${index}`}>
+              <View key={`bid-${index}`}>
                 {renderItem({ item: bid, index })}
                 {index < group.data.length - 1 && renderSeparator()}
               </View>
@@ -158,7 +158,7 @@ export function BidList(props: BidListProps) {
   return (
     <FlatList
       data={bids}
-      keyExtractor={(item, index) => item.id || `bid-${index}`}
+      keyExtractor={(_, index) => `bid-${index}`}
       renderItem={renderItem}
       ItemSeparatorComponent={renderSeparator}
       ListHeaderComponent={ListHeaderComponent}
@@ -225,7 +225,7 @@ const $loadingContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   gap: spacing.md,
 })
 
-const $loadingText: ThemedStyle<ViewStyle> = ({ colors }) => ({
+const $loadingText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand500,
 })
 
@@ -243,7 +243,7 @@ const $sectionHeader: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   backgroundColor: colors.palette.sand100,
 })
 
-const $sectionTitle: ThemedStyle<ViewStyle> = ({ colors }) => ({
+const $sectionTitle: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand600,
   textTransform: "uppercase",
   letterSpacing: 1,

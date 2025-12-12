@@ -217,7 +217,6 @@ export function BidSubmissionForm(props: BidSubmissionFormProps) {
               items={breakdownItems}
               total={total}
               currency={currency}
-              showSubtotal={false}
             />
           </View>
         )}
