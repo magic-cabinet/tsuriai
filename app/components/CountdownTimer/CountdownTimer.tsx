@@ -161,6 +161,7 @@ export function CountdownTimer({
           label: { fontSize: 8, lineHeight: 10 },
           gap: 2,
           hideLabels: true,
+          unitWidth: 24,
         }
       case "small":
         return {
@@ -168,6 +169,7 @@ export function CountdownTimer({
           label: { fontSize: 10, lineHeight: 14 },
           gap: 8,
           hideLabels: false,
+          unitWidth: 40,
         }
       case "large":
         return {
@@ -175,6 +177,7 @@ export function CountdownTimer({
           label: { fontSize: 14, lineHeight: 20 },
           gap: 16,
           hideLabels: false,
+          unitWidth: 64,
         }
       default:
         return {
@@ -182,6 +185,7 @@ export function CountdownTimer({
           label: { fontSize: 12, lineHeight: 16 },
           gap: 12,
           hideLabels: false,
+          unitWidth: 52,
         }
     }
   }, [size])
@@ -225,6 +229,7 @@ export function CountdownTimer({
           numberStyle={sizeStyles.number}
           labelStyle={sizeStyles.label}
           hideLabel={hideLabels}
+          minWidth={sizeStyles.unitWidth}
         />
       )}
       {showDays && <TimeSeparator color={textColor} size={sizeStyles.number.fontSize} />}
@@ -236,6 +241,7 @@ export function CountdownTimer({
         numberStyle={sizeStyles.number}
         labelStyle={sizeStyles.label}
         hideLabel={hideLabels}
+        minWidth={sizeStyles.unitWidth}
       />
       <TimeSeparator color={textColor} size={sizeStyles.number.fontSize} />
       <TimeUnit
@@ -246,6 +252,7 @@ export function CountdownTimer({
         numberStyle={sizeStyles.number}
         labelStyle={sizeStyles.label}
         hideLabel={hideLabels}
+        minWidth={sizeStyles.unitWidth}
       />
       <TimeSeparator color={textColor} size={sizeStyles.number.fontSize} />
       <TimeUnit
@@ -256,6 +263,7 @@ export function CountdownTimer({
         numberStyle={sizeStyles.number}
         labelStyle={sizeStyles.label}
         hideLabel={hideLabels}
+        minWidth={sizeStyles.unitWidth}
       />
     </Animated.View>
   )
@@ -269,6 +277,7 @@ interface TimeUnitProps {
   numberStyle: { fontSize: number; lineHeight: number }
   labelStyle: { fontSize: number; lineHeight: number }
   hideLabel?: boolean
+  minWidth?: number
 }
 
 function TimeUnit({
@@ -279,11 +288,12 @@ function TimeUnit({
   numberStyle,
   labelStyle,
   hideLabel = false,
+  minWidth,
 }: TimeUnitProps) {
   const formattedValue = value.toString().padStart(2, "0")
 
   return (
-    <View style={styles.timeUnit}>
+    <View style={[styles.timeUnit, minWidth ? { minWidth } : undefined]}>
       <Animated.View key={formattedValue} entering={FadeIn.duration(200)} exiting={FadeOut.duration(200)}>
         <Text
           text={formattedValue}
@@ -293,6 +303,7 @@ function TimeUnit({
             fontSize: numberStyle.fontSize,
             lineHeight: numberStyle.lineHeight,
             letterSpacing: -0.5,
+            textAlign: "center",
           }}
         />
       </Animated.View>
@@ -305,6 +316,7 @@ function TimeUnit({
             fontSize: labelStyle.fontSize,
             lineHeight: labelStyle.lineHeight,
             letterSpacing: 1,
+            textAlign: "center",
           }}
         />
       )}
