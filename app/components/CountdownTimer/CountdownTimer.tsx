@@ -191,7 +191,7 @@ export function CountdownTimer({
     return (
       <Animated.View
         entering={FadeIn.duration(300)}
-        style={[styles.container, containerStyle, style]}
+        style={[themed($containerBase), themed($containerSizeStyles[size]), containerStyle, style]}
       >
         <Text
           text="EXPIRED"
@@ -211,11 +211,9 @@ export function CountdownTimer({
   const showDays = timeRemaining.days > 0
   const hideLabels = sizeStyles.hideLabels
 
-  const containerSizeStyle = size === "xs" ? styles.containerXs : styles.container
-
   return (
     <Animated.View
-      style={[containerSizeStyle, containerStyle, animatedStyle, style]}
+      style={[themed($containerBase), themed($containerSizeStyles[size]), containerStyle, animatedStyle, style]}
       entering={FadeIn.duration(300)}
     >
       {showDays && (
@@ -335,27 +333,41 @@ function TimeSeparator({ color, size }: TimeSeparatorProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    alignSelf: "flex-start",
-    borderRadius: 12,
-    flexDirection: "row",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  containerXs: {
-    alignItems: "center",
-    alignSelf: "flex-start",
-    borderRadius: 4,
-    flexDirection: "row",
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-  },
   timeUnit: {
     alignItems: "center",
     gap: 2,
   },
 })
+
+// Size-based container styles using theme spacing
+const $containerBase: ThemedStyle<ViewStyle> = () => ({
+  alignItems: "center",
+  alignSelf: "flex-start",
+  flexDirection: "row",
+})
+
+const $containerSizeStyles: Record<"xs" | "small" | "medium" | "large", ThemedStyle<ViewStyle>> = {
+  xs: ({ spacing }) => ({
+    borderRadius: spacing.xxs,
+    paddingHorizontal: spacing.xxs + 2,
+    paddingVertical: spacing.xxxs + 1,
+  }),
+  small: ({ spacing }) => ({
+    borderRadius: spacing.xs,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+  }),
+  medium: ({ spacing }) => ({
+    borderRadius: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  }),
+  large: ({ spacing }) => ({
+    borderRadius: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+  }),
+}
 
 // Themed container styles
 const $containerNormal: ThemedStyle<ViewStyle> = (theme) => ({

@@ -6,7 +6,7 @@ import type { ThemedStyle } from "@/theme/types"
 import { Text, TextProps } from "../Text"
 import { Card } from "../Card"
 import { Badge } from "../Badge"
-import { AuctionTimer } from "../AuctionTimer"
+import { CountdownTimer } from "../CountdownTimer"
 import { Icon } from "../Icon"
 
 type AuctionType = "standard" | "dutch" | "sealed" | "reserve"
@@ -255,12 +255,9 @@ export function AuctionCard(props: AuctionCardProps) {
                 )}
               </View>
               {!isEnded && (
-                <AuctionTimer
-                  endDate={endDate}
-                  startDate={startDate}
+                <CountdownTimer
+                  targetDate={isUpcoming && startDate ? startDate : endDate}
                   size={compact ? "xs" : "small"}
-                  showPhaseBadge={false}
-                  showIcon={false}
                 />
               )}
             </View>
