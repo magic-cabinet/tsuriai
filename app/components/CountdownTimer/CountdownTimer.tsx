@@ -161,7 +161,7 @@ export function CountdownTimer({
           label: { fontSize: 8, lineHeight: 10 },
           gap: 2,
           hideLabels: true,
-          unitWidth: 24,
+          unitWidth: undefined, // No fixed width for xs - content-sized
         }
       case "small":
         return {
