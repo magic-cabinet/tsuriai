@@ -6,15 +6,16 @@ import type { ThemedStyle } from "@/theme/types"
 import { Text } from "../Text"
 import { Card } from "../Card"
 import { Badge } from "../Badge"
-import { Icon, IconTypes } from "../Icon"
+import { Icon } from "../Icon"
 import { Button } from "../Button"
-import { Divider } from "../Divider"
 
 type DeliveryStatus = "pending" | "picked_up" | "in_transit" | "out_for_delivery" | "delivered" | "failed"
+type PanelVariant = "default" | "compact" | "detailed"
 
-interface DeliveryStep {
-  status: DeliveryStatus
+interface TrackingStep {
+  id: string
   label: string
+  sublabel?: string
   timestamp?: Date
   location?: string
   completed: boolean
@@ -30,6 +31,11 @@ export interface DeliveryTrackingPanelProps {
    * Current delivery status
    */
   status: DeliveryStatus
+  /**
+   * Panel display variant
+   * @default "default"
+   */
+  variant?: PanelVariant
   /**
    * Estimated delivery date
    */
@@ -59,9 +65,9 @@ export interface DeliveryTrackingPanelProps {
    */
   currentLocation?: string
   /**
-   * Delivery steps/history
+   * Custom tracking steps (overrides default)
    */
-  steps?: DeliveryStep[]
+  steps?: TrackingStep[]
   /**
    * Driver/courier name
    */
@@ -88,33 +94,47 @@ export interface DeliveryTrackingPanelProps {
   style?: StyleProp<ViewStyle>
 }
 
-const STATUS_CONFIG: Record<DeliveryStatus, { label: string; status: "success" | "warning" | "error" | "info" | "neutral"; icon: IconTypes }> = {
-  pending: { label: "Pending Pickup", status: "neutral", icon: "components" },
-  picked_up: { label: "Picked Up", status: "info", icon: "check" },
-  in_transit: { label: "In Transit", status: "info", icon: "components" },
-  out_for_delivery: { label: "Out for Delivery", status: "warning", icon: "components" },
-  delivered: { label: "Delivered", status: "success", icon: "check" },
-  failed: { label: "Delivery Failed", status: "error", icon: "x" },
+const STATUS_CONFIG: Record<DeliveryStatus, {
+  label: string
+  badgeStatus: "success" | "warning" | "error" | "info" | "neutral"
+  color: "seafoam" | "sunset" | "coral" | "ocean" | "sand"
+}> = {
+  pending: { label: "Pending Pickup", badgeStatus: "neutral", color: "sand" },
+  picked_up: { label: "Picked Up", badgeStatus: "info", color: "ocean" },
+  in_transit: { label: "In Transit", badgeStatus: "info", color: "ocean" },
+  out_for_delivery: { label: "Out for Delivery", badgeStatus: "warning", color: "sunset" },
+  delivered: { label: "Delivered", badgeStatus: "success", color: "seafoam" },
+  failed: { label: "Delivery Failed", badgeStatus: "error", color: "coral" },
 }
 
-const DEFAULT_STEPS: DeliveryStep[] = [
-  { status: "pending", label: "Order Confirmed", completed: false, current: false },
-  { status: "picked_up", label: "Picked Up", completed: false, current: false },
-  { status: "in_transit", label: "In Transit", completed: false, current: false },
-  { status: "out_for_delivery", label: "Out for Delivery", completed: false, current: false },
-  { status: "delivered", label: "Delivered", completed: false, current: false },
-]
+const STATUS_ORDER: DeliveryStatus[] = ["pending", "picked_up", "in_transit", "out_for_delivery", "delivered"]
+
+function getDefaultSteps(currentStatus: DeliveryStatus): TrackingStep[] {
+  const currentIndex = STATUS_ORDER.indexOf(currentStatus)
+  const isFailed = currentStatus === "failed"
+
+  return [
+    { id: "1", label: "Order Confirmed", sublabel: "Awaiting pickup", completed: !isFailed && currentIndex >= 0, current: currentIndex === 0 },
+    { id: "2", label: "Picked Up", sublabel: "Package collected", completed: !isFailed && currentIndex >= 1, current: currentIndex === 1 },
+    { id: "3", label: "In Transit", sublabel: "On the way", completed: !isFailed && currentIndex >= 2, current: currentIndex === 2 },
+    { id: "4", label: "Out for Delivery", sublabel: "Arriving today", completed: !isFailed && currentIndex >= 3, current: currentIndex === 3 },
+    { id: "5", label: "Delivered", sublabel: "Package received", completed: !isFailed && currentIndex >= 4, current: currentIndex === 4 },
+  ]
+}
 
 /**
- * DeliveryTrackingPanel component for tracking order deliveries.
+ * DeliveryTrackingPanel - Track order delivery progress
  *
- * @param {DeliveryTrackingPanelProps} props - The props for the `DeliveryTrackingPanel` component.
- * @returns {JSX.Element} The rendered `DeliveryTrackingPanel` component.
+ * Variants:
+ * - default: Full tracking with steps and details
+ * - compact: Minimal status display
+ * - detailed: Extended information with all details
  */
 export function DeliveryTrackingPanel(props: DeliveryTrackingPanelProps) {
   const {
     orderId,
     status,
+    variant = "default",
     estimatedDelivery,
     actualDelivery,
     carrier,
@@ -122,7 +142,7 @@ export function DeliveryTrackingPanel(props: DeliveryTrackingPanelProps) {
     origin,
     destination,
     currentLocation,
-    steps = DEFAULT_STEPS,
+    steps,
     driverName,
     driverPhone,
     onContactDriver,
@@ -132,8 +152,8 @@ export function DeliveryTrackingPanel(props: DeliveryTrackingPanelProps) {
   } = props
 
   const { themed, theme } = useAppTheme()
-
   const statusConfig = STATUS_CONFIG[status]
+  const trackingSteps = steps ?? getDefaultSteps(status)
 
   const formatDate = (date: Date): string => {
     return date.toLocaleDateString("en-US", {
@@ -145,66 +165,83 @@ export function DeliveryTrackingPanel(props: DeliveryTrackingPanelProps) {
     })
   }
 
-  // Calculate step states based on current status
-  const statusOrder: DeliveryStatus[] = ["pending", "picked_up", "in_transit", "out_for_delivery", "delivered"]
-  const currentIndex = statusOrder.indexOf(status)
+  const getStatusColor = (colorName: string, shade: number) => {
+    const key = `${colorName}${shade}` as keyof typeof theme.colors.palette
+    return theme.colors.palette[key] || theme.colors.palette.sand500
+  }
 
-  const processedSteps = steps.map((step, index) => {
-    const stepIndex = statusOrder.indexOf(step.status)
-    return {
-      ...step,
-      completed: stepIndex < currentIndex || status === "delivered",
-      current: stepIndex === currentIndex,
-    }
-  })
+  // Compact variant - just status badge
+  if (variant === "compact") {
+    return (
+      <Card variant="outlined" style={$styleOverride}>
+        <View style={themed($compactContainer)}>
+          <View style={themed($compactLeft)}>
+            <View style={[themed($statusDot), { backgroundColor: getStatusColor(statusConfig.color, 400) }]} />
+            <View>
+              <Text text={statusConfig.label} weight="medium" size="sm" />
+              {estimatedDelivery && status !== "delivered" && (
+                <Text text={`Est. ${formatDate(estimatedDelivery)}`} size="xs" style={themed($subtleText)} />
+              )}
+            </View>
+          </View>
+          <Badge text={orderId} status="neutral" size="sm" badgeStyle="subtle" />
+        </View>
+      </Card>
+    )
+  }
 
   return (
     <View style={$styleOverride}>
-      {/* Status Header */}
-      <Card style={themed($statusCard)}>
-        <View style={themed($statusHeader)}>
-          <View style={[themed($statusIconContainer), { backgroundColor: theme.colors.palette[statusConfig.status === "success" ? "seafoam300" : statusConfig.status === "error" ? "coral300" : "ocean300"] }]}>
-            <Icon icon={statusConfig.icon} size={24} color={theme.colors.palette.sand100} />
+      {/* Status Header Card */}
+      <Card variant="elevated" style={themed($headerCard)}>
+        <View style={themed($headerRow)}>
+          <View style={[themed($statusIcon), { backgroundColor: getStatusColor(statusConfig.color, 100) }]}>
+            <Icon
+              icon={status === "delivered" ? "check" : status === "failed" ? "x" : "components"}
+              size={24}
+              color={getStatusColor(statusConfig.color, 500)}
+            />
           </View>
-          <View style={themed($statusInfo)}>
+          <View style={themed($headerInfo)}>
             <Badge
               text={statusConfig.label}
-              status={statusConfig.status}
+              status={statusConfig.badgeStatus}
               size="md"
               badgeStyle="solid"
             />
             {estimatedDelivery && status !== "delivered" && (
               <Text
-                text={`Est. delivery: ${formatDate(estimatedDelivery)}`}
+                text={`Estimated: ${formatDate(estimatedDelivery)}`}
                 size="sm"
-                style={themed($estimatedText)}
+                style={themed($subtleText)}
               />
             )}
             {actualDelivery && status === "delivered" && (
               <Text
                 text={`Delivered: ${formatDate(actualDelivery)}`}
                 size="sm"
-                style={themed($deliveredText)}
+                style={{ color: theme.colors.palette.seafoam500 }}
               />
             )}
           </View>
         </View>
 
-        {currentLocation && status === "in_transit" && (
-          <View style={themed($currentLocationBox)}>
+        {currentLocation && (status === "in_transit" || status === "out_for_delivery") && (
+          <View style={themed($locationBanner)}>
             <Icon icon="pin" size={16} color={theme.colors.palette.ocean500} />
-            <Text text={currentLocation} size="sm" style={themed($currentLocationText)} />
+            <Text text={currentLocation} size="sm" style={{ color: theme.colors.palette.ocean600, flex: 1 }} />
           </View>
         )}
       </Card>
 
-      {/* Tracking Steps */}
-      <Card style={themed($stepsCard)}>
-        <Text text="Tracking Progress" preset="subheading" style={themed($sectionTitle)} />
+      {/* Progress Steps */}
+      <Card variant="filled" style={themed($stepsCard)}>
+        <Text text="Tracking Progress" weight="bold" style={themed($sectionTitle)} />
         <View style={themed($stepsContainer)}>
-          {processedSteps.map((step, index) => (
-            <View key={step.status} style={themed($stepRow)}>
-              <View style={themed($stepIndicator)}>
+          {trackingSteps.map((step, index) => (
+            <View key={step.id} style={themed($stepRow)}>
+              {/* Step Indicator */}
+              <View style={themed($stepIndicatorColumn)}>
                 <View
                   style={[
                     themed($stepDot),
@@ -212,31 +249,26 @@ export function DeliveryTrackingPanel(props: DeliveryTrackingPanelProps) {
                     step.current && themed($stepDotCurrent),
                   ]}
                 >
-                  {step.completed && (
-                    <Icon icon="check" size={12} color={theme.colors.palette.sand100} />
-                  )}
+                  {step.completed && <Icon icon="check" size={12} color={theme.colors.palette.sand100} />}
                 </View>
-                {index < processedSteps.length - 1 && (
-                  <View
-                    style={[
-                      themed($stepLine),
-                      step.completed && themed($stepLineCompleted),
-                    ]}
-                  />
+                {index < trackingSteps.length - 1 && (
+                  <View style={[themed($stepLine), step.completed && themed($stepLineCompleted)]} />
                 )}
               </View>
+
+              {/* Step Content */}
               <View style={themed($stepContent)}>
                 <Text
                   text={step.label}
                   size="sm"
                   weight={step.current ? "bold" : "normal"}
-                  style={[themed($stepLabel), step.completed && themed($stepLabelCompleted)]}
+                  style={step.completed ? themed($stepTextCompleted) : themed($stepText)}
                 />
-                {step.timestamp && (
-                  <Text text={formatDate(step.timestamp)} size="xs" style={themed($stepTime)} />
+                {step.sublabel && (
+                  <Text text={step.sublabel} size="xs" style={themed($subtleText)} />
                 )}
-                {step.location && (
-                  <Text text={step.location} size="xs" style={themed($stepLocation)} />
+                {step.timestamp && (
+                  <Text text={formatDate(step.timestamp)} size="xs" style={themed($timestampText)} />
                 )}
               </View>
             </View>
@@ -244,93 +276,84 @@ export function DeliveryTrackingPanel(props: DeliveryTrackingPanelProps) {
         </View>
       </Card>
 
-      {/* Shipment Details */}
-      <Card style={themed($detailsCard)}>
-        <Text text="Shipment Details" preset="subheading" style={themed($sectionTitle)} />
+      {/* Shipment Details - only in detailed variant */}
+      {variant === "detailed" && (
+        <Card variant="outlined" style={themed($detailsCard)}>
+          <Text text="Shipment Details" weight="bold" style={themed($sectionTitle)} />
 
-        <View style={themed($detailRow)}>
-          <Text text="Order ID" size="sm" style={themed($detailLabel)} />
-          <Text text={orderId} size="sm" weight="medium" style={themed($detailValue)} />
-        </View>
-
-        {trackingNumber && (
           <View style={themed($detailRow)}>
-            <Text text="Tracking #" size="sm" style={themed($detailLabel)} />
-            <Text text={trackingNumber} size="sm" weight="medium" style={themed($detailValue)} />
+            <Text text="Order ID" size="sm" style={themed($detailLabel)} />
+            <Text text={orderId} size="sm" weight="medium" />
           </View>
-        )}
 
-        {carrier && (
-          <View style={themed($detailRow)}>
-            <Text text="Carrier" size="sm" style={themed($detailLabel)} />
-            <Text text={carrier} size="sm" weight="medium" style={themed($detailValue)} />
-          </View>
-        )}
-
-        <Divider style={themed($divider)} />
-
-        {origin && (
-          <View style={themed($addressRow)}>
-            <Icon icon="pin" size={14} color={theme.colors.palette.sand500} />
-            <View style={themed($addressInfo)}>
-              <Text text="From" size="xs" style={themed($addressLabel)} />
-              <Text text={origin} size="sm" style={themed($addressText)} />
+          {trackingNumber && (
+            <View style={themed($detailRow)}>
+              <Text text="Tracking #" size="sm" style={themed($detailLabel)} />
+              <Text text={trackingNumber} size="sm" weight="medium" />
             </View>
-          </View>
-        )}
+          )}
 
-        {destination && (
-          <View style={themed($addressRow)}>
-            <Icon icon="pin" size={14} color={theme.colors.palette.ocean500} />
-            <View style={themed($addressInfo)}>
-              <Text text="To" size="xs" style={themed($addressLabel)} />
-              <Text text={destination} size="sm" style={themed($addressText)} />
+          {carrier && (
+            <View style={themed($detailRow)}>
+              <Text text="Carrier" size="sm" style={themed($detailLabel)} />
+              <Text text={carrier} size="sm" weight="medium" />
             </View>
-          </View>
-        )}
-      </Card>
+          )}
+
+          {(origin || destination) && (
+            <View style={themed($addressSection)}>
+              {origin && (
+                <View style={themed($addressRow)}>
+                  <View style={[themed($addressDot), { backgroundColor: theme.colors.palette.sand400 }]} />
+                  <View style={themed($addressContent)}>
+                    <Text text="From" size="xs" style={themed($subtleText)} />
+                    <Text text={origin} size="sm" />
+                  </View>
+                </View>
+              )}
+              {origin && destination && <View style={themed($addressLine)} />}
+              {destination && (
+                <View style={themed($addressRow)}>
+                  <View style={[themed($addressDot), { backgroundColor: theme.colors.palette.ocean500 }]} />
+                  <View style={themed($addressContent)}>
+                    <Text text="To" size="xs" style={themed($subtleText)} />
+                    <Text text={destination} size="sm" />
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
+        </Card>
+      )}
 
       {/* Driver Info & Actions */}
       {(driverName || onTrackOnMap || onReportIssue) && (
-        <Card style={themed($actionsCard)}>
+        <Card variant="ghost" style={themed($actionsCard)}>
           {driverName && (
-            <View style={themed($driverInfo)}>
+            <View style={themed($driverRow)}>
               <View style={themed($driverAvatar)}>
                 <Icon icon="community" size={20} color={theme.colors.palette.sand600} />
               </View>
-              <View style={themed($driverDetails)}>
+              <View style={themed($driverInfo)}>
                 <Text text={driverName} size="sm" weight="medium" />
-                {driverPhone && <Text text={driverPhone} size="xs" style={themed($driverPhone)} />}
+                {driverPhone && <Text text={driverPhone} size="xs" style={themed($subtleText)} />}
               </View>
               {onContactDriver && (
-                <Button
-                  text="Call"
-                  preset="default"
-                  onPress={onContactDriver}
-                  style={themed($callButton)}
-                />
+                <Button text="Call" preset="default" onPress={onContactDriver} />
               )}
             </View>
           )}
 
-          <View style={themed($actionButtons)}>
-            {onTrackOnMap && (
-              <Button
-                text="Track on Map"
-                preset="reversed"
-                onPress={onTrackOnMap}
-                style={themed($actionButton)}
-              />
-            )}
-            {onReportIssue && (
-              <Button
-                text="Report Issue"
-                preset="default"
-                onPress={onReportIssue}
-                style={themed($actionButton)}
-              />
-            )}
-          </View>
+          {(onTrackOnMap || onReportIssue) && (
+            <View style={themed($actionButtons)}>
+              {onTrackOnMap && (
+                <Button text="Track on Map" preset="reversed" onPress={onTrackOnMap} style={themed($actionButton)} />
+              )}
+              {onReportIssue && (
+                <Button text="Report Issue" preset="default" onPress={onReportIssue} style={themed($actionButton)} />
+              )}
+            </View>
+          )}
         </Card>
       )}
     </View>
@@ -341,17 +364,37 @@ export function DeliveryTrackingPanel(props: DeliveryTrackingPanelProps) {
 // STYLES
 // =============================================================================
 
-const $statusCard: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  marginBottom: spacing.md,
+// Compact variant
+const $compactContainer: ThemedStyle<ViewStyle> = () => ({
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
 })
 
-const $statusHeader: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+const $compactLeft: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  flexDirection: "row",
+  alignItems: "center",
+  gap: spacing.sm,
+})
+
+const $statusDot: ThemedStyle<ViewStyle> = () => ({
+  width: 12,
+  height: 12,
+  borderRadius: 6,
+})
+
+// Header
+const $headerCard: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  marginBottom: spacing.sm,
+})
+
+const $headerRow: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexDirection: "row",
   alignItems: "center",
   gap: spacing.md,
 })
 
-const $statusIconContainer: ThemedStyle<ViewStyle> = () => ({
+const $statusIcon: ThemedStyle<ViewStyle> = () => ({
   width: 48,
   height: 48,
   borderRadius: 24,
@@ -359,20 +402,12 @@ const $statusIconContainer: ThemedStyle<ViewStyle> = () => ({
   justifyContent: "center",
 })
 
-const $statusInfo: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+const $headerInfo: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flex: 1,
   gap: spacing.xxs,
 })
 
-const $estimatedText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.sand600,
-})
-
-const $deliveredText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.seafoam500,
-})
-
-const $currentLocationBox: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
+const $locationBanner: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   flexDirection: "row",
   alignItems: "center",
   gap: spacing.xs,
@@ -382,13 +417,9 @@ const $currentLocationBox: ThemedStyle<ViewStyle> = ({ spacing, colors }) => ({
   borderRadius: 8,
 })
 
-const $currentLocationText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.ocean600,
-  flex: 1,
-})
-
+// Steps
 const $stepsCard: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  marginBottom: spacing.md,
+  marginBottom: spacing.sm,
 })
 
 const $sectionTitle: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
@@ -402,7 +433,7 @@ const $stepRow: ThemedStyle<ViewStyle> = () => ({
   flexDirection: "row",
 })
 
-const $stepIndicator: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+const $stepIndicatorColumn: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   alignItems: "center",
   marginRight: spacing.md,
 })
@@ -422,11 +453,13 @@ const $stepDotCompleted: ThemedStyle<ViewStyle> = ({ colors }) => ({
 
 const $stepDotCurrent: ThemedStyle<ViewStyle> = ({ colors }) => ({
   backgroundColor: colors.palette.ocean500,
+  borderWidth: 3,
+  borderColor: colors.palette.ocean200,
 })
 
 const $stepLine: ThemedStyle<ViewStyle> = ({ colors }) => ({
   width: 2,
-  height: 40,
+  height: 32,
   backgroundColor: colors.palette.sand300,
 })
 
@@ -439,24 +472,25 @@ const $stepContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   paddingBottom: spacing.md,
 })
 
-const $stepLabel: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.sand700,
+const $stepText: ThemedStyle<TextStyle> = ({ colors }) => ({
+  color: colors.palette.sand600,
 })
 
-const $stepLabelCompleted: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $stepTextCompleted: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand900,
 })
 
-const $stepTime: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $subtleText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand500,
 })
 
-const $stepLocation: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.sand500,
+const $timestampText: ThemedStyle<TextStyle> = ({ colors }) => ({
+  color: colors.palette.ocean500,
 })
 
+// Details
 const $detailsCard: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  marginBottom: spacing.md,
+  marginBottom: spacing.sm,
 })
 
 const $detailRow: ThemedStyle<ViewStyle> = ({ spacing }) => ({
@@ -469,61 +503,59 @@ const $detailLabel: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand500,
 })
 
-const $detailValue: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.sand800,
-})
-
-const $divider: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  marginVertical: spacing.md,
+const $addressSection: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  marginTop: spacing.md,
+  paddingTop: spacing.md,
+  borderTopWidth: 1,
+  borderTopColor: "rgba(0,0,0,0.05)",
 })
 
 const $addressRow: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexDirection: "row",
   alignItems: "flex-start",
   gap: spacing.sm,
-  marginBottom: spacing.sm,
 })
 
-const $addressInfo: ThemedStyle<ViewStyle> = () => ({
+const $addressDot: ThemedStyle<ViewStyle> = () => ({
+  width: 10,
+  height: 10,
+  borderRadius: 5,
+  marginTop: 4,
+})
+
+const $addressLine: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+  width: 2,
+  height: 16,
+  backgroundColor: colors.palette.sand300,
+  marginLeft: 4,
+  marginVertical: spacing.xxs,
+})
+
+const $addressContent: ThemedStyle<ViewStyle> = () => ({
   flex: 1,
 })
 
-const $addressLabel: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.sand500,
-})
-
-const $addressText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.sand800,
-})
-
+// Actions
 const $actionsCard: ThemedStyle<ViewStyle> = () => ({})
 
-const $driverInfo: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+const $driverRow: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexDirection: "row",
   alignItems: "center",
+  gap: spacing.sm,
   marginBottom: spacing.md,
 })
 
-const $driverAvatar: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
+const $driverAvatar: ThemedStyle<ViewStyle> = ({ colors }) => ({
   width: 40,
   height: 40,
   borderRadius: 20,
   backgroundColor: colors.palette.sand200,
   alignItems: "center",
   justifyContent: "center",
-  marginRight: spacing.sm,
 })
 
-const $driverDetails: ThemedStyle<ViewStyle> = () => ({
+const $driverInfo: ThemedStyle<ViewStyle> = () => ({
   flex: 1,
-})
-
-const $driverPhone: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.sand500,
-})
-
-const $callButton: ThemedStyle<ViewStyle> = () => ({
-  paddingHorizontal: 16,
 })
 
 const $actionButtons: ThemedStyle<ViewStyle> = ({ spacing }) => ({
