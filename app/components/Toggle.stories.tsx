@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
  * Used in settings, preferences, onboarding agreements, and trading options.
  */
 const meta = {
-  title: "Forms/Toggle",
+  title: "Input/Toggle",
   component: Checkbox,
   decorators: [
     (Story) => (

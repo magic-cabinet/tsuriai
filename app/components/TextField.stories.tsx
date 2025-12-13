@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
  * - OTP verification patterns
  */
 const meta = {
-  title: "Forms/TextField",
+  title: "Input/TextField",
   component: TextField,
   argTypes: {
     status: {

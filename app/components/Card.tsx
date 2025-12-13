@@ -1,4 +1,4 @@
-import { ComponentType, Fragment, ReactElement } from "react"
+import { ComponentType, Fragment, ReactElement, ReactNode } from "react"
 import {
   StyleProp,
   TextStyle,
@@ -16,8 +16,18 @@ import type { ThemedStyle, ThemedStyleArray } from "@/theme/types"
 import { Text, TextProps } from "./Text"
 
 type Presets = "default" | "reversed"
+type CardVariant = "elevated" | "outlined" | "filled" | "ghost"
 
-interface CardProps extends TouchableOpacityProps {
+export interface CardProps extends TouchableOpacityProps {
+  /**
+   * Card style variant for simple container cards
+   * @default "elevated"
+   */
+  variant?: CardVariant
+  /**
+   * Children components (alternative to heading/content/footer pattern)
+   */
+  children?: ReactNode
   /**
    * One of the different types of text presets.
    */
@@ -129,6 +139,8 @@ interface CardProps extends TouchableOpacityProps {
  */
 export function Card(props: CardProps) {
   const {
+    variant,
+    children,
     content,
     contentTx,
     contentTxOptions,
@@ -161,6 +173,30 @@ export function Card(props: CardProps) {
 
   const preset: Presets = props.preset ?? "default"
   const isPressable = !!WrapperProps.onPress
+
+  // Simple mode: when variant is used with children (no heading/content/footer)
+  const isSimpleMode = variant !== undefined && children !== undefined
+
+  if (isSimpleMode) {
+    const Wrapper = (isPressable ? TouchableOpacity : View) as ComponentType<
+      TouchableOpacityProps | ViewProps
+    >
+    const $simpleStyle: StyleProp<ViewStyle> = [
+      themed($variantStyles[variant]),
+      $containerStyleOverride,
+    ]
+    return (
+      <Wrapper
+        style={$simpleStyle}
+        activeOpacity={0.8}
+        accessibilityRole={isPressable ? "button" : undefined}
+        {...WrapperProps}
+      >
+        {children}
+      </Wrapper>
+    )
+  }
+
   const isHeadingPresent = !!(HeadingComponent || heading || headingTx)
   const isContentPresent = !!(ContentComponent || content || contentTx)
   const isFooterPresent = !!(FooterComponent || footer || footerTx)
@@ -311,4 +347,35 @@ const $contentPresets: Record<Presets, ThemedStyleArray<TextStyle>> = {
 const $footerPresets: Record<Presets, ThemedStyleArray<TextStyle>> = {
   default: [],
   reversed: [(theme) => ({ color: theme.colors.palette.neutral100 })],
+}
+
+// Variant styles for simple container mode
+const $variantStyles: Record<CardVariant, ThemedStyle<ViewStyle>> = {
+  elevated: ({ colors, spacing }) => ({
+    backgroundColor: colors.palette.sand100,
+    borderRadius: spacing.sm,
+    padding: spacing.md,
+    shadowColor: colors.palette.sand900,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 3,
+  }),
+  outlined: ({ colors, spacing }) => ({
+    backgroundColor: colors.transparent,
+    borderRadius: spacing.sm,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.palette.sand300,
+  }),
+  filled: ({ colors, spacing }) => ({
+    backgroundColor: colors.palette.sand200,
+    borderRadius: spacing.sm,
+    padding: spacing.md,
+  }),
+  ghost: ({ colors, spacing }) => ({
+    backgroundColor: colors.palette.sand100,
+    borderRadius: spacing.sm,
+    padding: spacing.md,
+  }),
 }

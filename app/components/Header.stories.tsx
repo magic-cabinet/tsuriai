@@ -199,7 +199,7 @@ const StockHeader = ({ symbol, name }: { symbol: string; name: string }) => (
  * Includes various configurations for different app screens.
  */
 const meta = {
-  title: "Navigation/Header",
+  title: "Layout/Header",
   component: Header,
   argTypes: {
     title: {

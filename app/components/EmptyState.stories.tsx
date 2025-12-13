@@ -104,7 +104,7 @@ const NoNotificationsIcon = () => (
  * search results, transactions, and error states.
  */
 const meta = {
-  title: "Feedback/EmptyState",
+  title: "Overlay/EmptyState",
   component: EmptyState,
   argTypes: {
     heading: {
