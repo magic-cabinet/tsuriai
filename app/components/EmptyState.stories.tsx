@@ -99,9 +99,9 @@ const NoNotificationsIcon = () => (
 /**
  * EmptyState Stories
  *
- * Empty states for the Beyond Equity investment platform.
- * Used when there's no data to display - portfolios, watchlists,
- * search results, transactions, and error states.
+ * Empty states for the Tsuriai fish marketplace.
+ * Used when there's no data to display - inventory, watchlists,
+ * search results, orders, and error states.
  */
 const meta = {
   title: "Overlay/EmptyState",

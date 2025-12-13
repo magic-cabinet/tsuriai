@@ -1,6 +1,7 @@
 /**
- * Typography configuration using Inter font family.
- * Based on the BeyondAlpha design system from Figma.
+ * Typography configuration for Tsuriai fish marketplace.
+ * Uses Noto Sans JP for Japanese text (traditional market feel)
+ * and Inter for Latin characters.
  */
 
 import { Platform } from "react-native"
@@ -19,9 +20,17 @@ import {
   SpaceGrotesk_600SemiBold as spaceGroteskSemiBold,
   SpaceGrotesk_700Bold as spaceGroteskBold,
 } from "@expo-google-fonts/space-grotesk"
+import {
+  NotoSansJP_100Thin as notoSansJPThin,
+  NotoSansJP_300Light as notoSansJPLight,
+  NotoSansJP_400Regular as notoSansJPRegular,
+  NotoSansJP_500Medium as notoSansJPMedium,
+  NotoSansJP_700Bold as notoSansJPBold,
+  NotoSansJP_900Black as notoSansJPBlack,
+} from "@expo-google-fonts/noto-sans-jp"
 
 export const customFontsToLoad = {
-  // Inter fonts (primary)
+  // Inter fonts (primary for Latin text)
   interLight,
   interRegular,
   interMedium,
@@ -34,17 +43,34 @@ export const customFontsToLoad = {
   spaceGroteskMedium,
   spaceGroteskSemiBold,
   spaceGroteskBold,
+  // Noto Sans JP (Japanese text - traditional market feel)
+  notoSansJPThin,
+  notoSansJPLight,
+  notoSansJPRegular,
+  notoSansJPMedium,
+  notoSansJPBold,
+  notoSansJPBlack,
 }
 
 const fonts = {
   inter: {
-    // Cross-platform Google font - Primary font from Figma design system.
+    // Cross-platform Google font - Primary font for Latin text.
     light: "interLight",
     normal: "interRegular",
     medium: "interMedium",
     semiBold: "interSemiBold",
     bold: "interBold",
     extraBold: "interExtraBold",
+  },
+  notoSansJP: {
+    // Cross-platform Google font - Japanese text (MS Gothic alternative).
+    // Traditional Japanese market aesthetic.
+    thin: "notoSansJPThin",
+    light: "notoSansJPLight",
+    normal: "notoSansJPRegular",
+    medium: "notoSansJPMedium",
+    bold: "notoSansJPBold",
+    black: "notoSansJPBlack",
   },
   spaceGrotesk: {
     // Cross-platform Google font - Secondary/display font.
@@ -90,9 +116,15 @@ export const typography = {
   fonts,
   /**
    * The primary font. Used in most places.
-   * Inter - Clean, modern sans-serif from the BeyondAlpha design system.
+   * Inter - Clean, modern sans-serif for Latin text.
    */
   primary: fonts.inter,
+  /**
+   * Japanese font for 日本語 text.
+   * Noto Sans JP - Traditional market feel (MS Gothic alternative).
+   * Use for: prices, fish names, auction labels, grades.
+   */
+  japanese: fonts.notoSansJP,
   /**
    * An alternate font used for perhaps titles and stuff.
    * Space Grotesk - Geometric display font for headings.

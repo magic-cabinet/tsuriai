@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
 /**
  * Spinner Stories
  *
- * Loading spinner/indicator component for the Beyond Equity investment platform.
+ * Loading spinner/indicator component for the Tsuriai fish marketplace.
  * Simple, clean animation to indicate loading states throughout the app.
  *
  * Design principles:

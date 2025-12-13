@@ -1,11 +1,11 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "beyondequity",
       "dependencies": {
         "@expo-google-fonts/inter": "^0.4.2",
+        "@expo-google-fonts/noto-sans-jp": "^0.4.2",
         "@expo-google-fonts/space-grotesk": "^0.4.0",
         "@expo/metro-runtime": "~6.1.2",
         "@react-navigation/bottom-tabs": "^7.2.0",
@@ -415,6 +415,8 @@
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.4.1", "", { "dependencies": { "@eslint/core": "^0.17.0", "levn": "^0.4.1" } }, "sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA=="],
 
     "@expo-google-fonts/inter": ["@expo-google-fonts/inter@0.4.2", "", {}, "sha512-syfiImMaDmq7cFi0of+waE2M4uSCyd16zgyWxdPOY7fN2VBmSLKEzkfbZgeOjJq61kSqPBNNtXjggiQiSD6gMQ=="],
+
+    "@expo-google-fonts/noto-sans-jp": ["@expo-google-fonts/noto-sans-jp@0.4.2", "", {}, "sha512-iJHpRUlmmHZeXMpK73Mp9rg1w/bnqOUdz6Iu27Lv6DSGq00wLKitBRhRsSZkhh3hK7De4OxZyxMveqM/8v4VmQ=="],
 
     "@expo-google-fonts/space-grotesk": ["@expo-google-fonts/space-grotesk@0.4.1", "", {}, "sha512-ZVQYw4Ok/pgcSJiufP8oRZE3AVxS9xtmKEUfsurbHkHNdMc/GA1gDXP9G4Cr7KL4KqSc0haexR2TuMigotCn4Q=="],
 

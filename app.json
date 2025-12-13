@@ -1,7 +1,7 @@
 {
-  "name": "beyondequity",
-  "slug": "beyond-equity",
-  "scheme": "beyondequity",
+  "name": "tsuriai",
+  "slug": "tsuriai",
+  "scheme": "tsuriai",
   "version": "1.0.0",
   "orientation": "portrait",
   "userInterfaceStyle": "automatic",
@@ -16,7 +16,7 @@
   ],
   "android": {
     "icon": "./assets/images/app-icon-android-legacy.png",
-    "package": "com.beyondequity",
+    "package": "com.tsuriai",
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
       "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"
@@ -27,7 +27,7 @@
   "ios": {
     "icon": "./assets/images/app-icon-ios.png",
     "supportsTablet": true,
-    "bundleIdentifier": "com.beyondequity"
+    "bundleIdentifier": "com.tsuriai"
   },
   "web": {
     "favicon": "./assets/images/app-icon-web-favicon.png",

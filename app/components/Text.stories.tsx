@@ -7,9 +7,9 @@ import { colors } from "../theme/colors"
 /**
  * Text Stories
  *
- * Typography showcase for the BeyondAlpha design system.
+ * Typography showcase for the Tsuriai fish marketplace.
  * Uses Inter as the primary font with a refined typographic scale
- * designed for investment-grade interfaces.
+ * designed for auction and marketplace interfaces.
  */
 const meta = {
   title: "Core/Text",

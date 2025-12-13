@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 /**
  * Modal Stories
  *
- * Overlay modal/dialog component for the Beyond Equity investment platform.
+ * Overlay modal/dialog component for the Tsuriai fish marketplace.
  * Smooth animations and flexible content areas.
  *
  * Design principles:
@@ -520,7 +520,7 @@ export const NoCloseButton: Story = {
     >
       <View style={styles.modalContent}>
         <Text text="A critical update is available for the app." />
-        <Text text="You must update to continue using Beyond Equity." />
+        <Text text="You must update to continue using Tsuriai." />
         <Text size="sm" text="This modal cannot be dismissed." style={{ color: colors.palette.coral500 }} />
       </View>
     </ModalWrapper>

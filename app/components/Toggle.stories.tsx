@@ -120,8 +120,8 @@ const styles = StyleSheet.create({
 /**
  * Toggle Stories
  *
- * Checkbox, Radio, and Switch components for the Beyond Equity platform.
- * Used in settings, preferences, onboarding agreements, and trading options.
+ * Checkbox, Radio, and Switch components for the Tsuriai fish marketplace.
+ * Used in settings, preferences, auction filters, and order options.
  */
 const meta = {
   title: "Input/Toggle",

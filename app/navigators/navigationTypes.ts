@@ -15,11 +15,29 @@ export type DemoTabParamList = {
   DemoPodcastList: undefined
 }
 
+// Seller Tab Navigator types
+export type SellerTabParamList = {
+  SellerDashboard: undefined
+  Inventory: undefined
+  SellerOrders: undefined
+  SellerProfile: undefined
+}
+
+// Buyer Tab Navigator types
+export type BuyerTabParamList = {
+  BuyerDashboard: undefined
+  Browse: undefined
+  Cart: undefined
+  BuyerProfile: undefined
+}
+
 // App Stack Navigator types
 export type AppStackParamList = {
   Welcome: undefined
   Login: undefined
   Demo: NavigatorScreenParams<DemoTabParamList>
+  Seller: NavigatorScreenParams<SellerTabParamList>
+  Buyer: NavigatorScreenParams<BuyerTabParamList>
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
@@ -31,6 +49,16 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 
 export type DemoTabScreenProps<T extends keyof DemoTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<DemoTabParamList, T>,
+  AppStackScreenProps<keyof AppStackParamList>
+>
+
+export type SellerTabScreenProps<T extends keyof SellerTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<SellerTabParamList, T>,
+  AppStackScreenProps<keyof AppStackParamList>
+>
+
+export type BuyerTabScreenProps<T extends keyof BuyerTabParamList> = CompositeScreenProps<
+  BottomTabScreenProps<BuyerTabParamList, T>,
   AppStackScreenProps<keyof AppStackParamList>
 >
 

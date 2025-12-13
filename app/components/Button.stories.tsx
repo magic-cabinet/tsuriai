@@ -177,8 +177,8 @@ const styles = StyleSheet.create({
 /**
  * Button Stories
  *
- * Premium button components for the Beyond Equity investment platform.
- * Inspired by Cash App's boldness, Wealthsimple's refinement, and Public's clarity.
+ * Premium button components for the Tsuriai fish marketplace.
+ * Inspired by Japanese fish market aesthetics and chirashi-style density.
  *
  * Design principles:
  * - High-contrast CTAs for primary actions

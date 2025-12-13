@@ -14,7 +14,9 @@ import { LoginScreen } from "@/screens/LoginScreen"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { useAppTheme } from "@/theme/context"
 
+import { BuyerNavigator } from "./BuyerNavigator"
 import { DemoNavigator } from "./DemoNavigator"
+import { SellerNavigator } from "./SellerNavigator"
 import type { AppStackParamList, NavigationProps } from "./navigationTypes"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -28,11 +30,20 @@ const exitRoutes = Config.exitRoutes
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = () => {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
 
   const {
     theme: { colors },
   } = useAppTheme()
+
+  // Determine initial route based on user role
+  const getInitialRoute = () => {
+    if (!isAuthenticated) return "Login"
+    // For now, default to Buyer experience
+    // Later: check user.role to determine Seller vs Buyer
+    if (user?.role === "seller") return "Seller"
+    return "Buyer"
+  }
 
   return (
     <Stack.Navigator
@@ -43,12 +54,13 @@ const AppStack = () => {
           backgroundColor: colors.background,
         },
       }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
+      initialRouteName={getInitialRoute()}
     >
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
-
+          <Stack.Screen name="Seller" component={SellerNavigator} />
+          <Stack.Screen name="Buyer" component={BuyerNavigator} />
           <Stack.Screen name="Demo" component={DemoNavigator} />
         </>
       ) : (

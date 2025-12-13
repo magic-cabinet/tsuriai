@@ -302,8 +302,8 @@ const styles = StyleSheet.create({
 /**
  * Card Stories
  *
- * Premium card components for the Beyond Equity investment platform.
- * Inspired by Wealthsimple's refined elegance and Public's clarity.
+ * Premium card components for the Tsuriai fish marketplace.
+ * Inspired by Japanese fish market aesthetics and Tsukiji auction energy.
  *
  * Design principles:
  * - Generous padding and rounded corners (20-24px radius)

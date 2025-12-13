@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Beyond Equity is a React Native mobile app built with Expo SDK 54 and the Ignite boilerplate (v11.3.2). It uses bun as the package manager.
+Tsuriai (釣り合い) is a two-sided fish marketplace app connecting fishermen/auctions with international buyers. Built with React Native, Expo SDK 54, and the Ignite boilerplate (v11.3.2). Uses bun as the package manager.
+
+### App Concept
+- **Sellers**: Individual fishermen, fishing boats/crews, auction houses
+- **Buyers**: Restaurants/chefs, wholesalers, retailers, consumers
+- **Transactions**: Live auctions (セリ), buy-now, pre-orders/contracts
+- **Design**: Japanese fish market aesthetic (chirashi style, Tsukiji-inspired)
 
 ## Common Commands
 

@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
 /**
  * TextField Stories
  *
- * Premium form inputs for the Beyond Equity investment platform.
- * Inspired by Wealthsimple's clean forms and Public's input clarity.
+ * Premium form inputs for the Tsuriai fish marketplace.
+ * Inspired by Japanese market aesthetics and auction bidding flows.
  *
  * Design principles:
  * - Generous touch targets (min 44px height)
@@ -619,7 +619,7 @@ export const AllStates: Story = {
           </View>
           <View style={styles.stateColumn}>
             <Text size="xxs" text="WITH VALUE" style={styles.stateLabel} />
-            <TextField placeholder="Enter text..." value="john@beyondequity.com" />
+            <TextField placeholder="Enter text..." value="tanaka@tsuriai.jp" />
           </View>
         </View>
         <View style={styles.stateGrid}>

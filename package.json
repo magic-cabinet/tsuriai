@@ -1,5 +1,5 @@
 {
-  "name": "beyondequity",
+  "name": "tsuriai",
   "version": "0.0.1",
   "private": true,
   "main": "index.tsx",
@@ -19,7 +19,7 @@
     "align-deps": "npx expo install --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:maestro": "maestro test -e MAESTRO_APP_ID=com.beyondequity .maestro/flows",
+    "test:maestro": "maestro test -e MAESTRO_APP_ID=com.tsuriai .maestro/flows",
     "adb": "adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:9001 tcp:9001 && adb reverse tcp:8081 tcp:8081",
     "build:ios:sim": "eas build --profile development --platform ios --local",
     "build:ios:device": "eas build --profile development:device --platform ios --local",
@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/noto-sans-jp": "^0.4.2",
     "@expo-google-fonts/space-grotesk": "^0.4.0",
     "@expo/metro-runtime": "~6.1.2",
     "@react-navigation/bottom-tabs": "^7.2.0",

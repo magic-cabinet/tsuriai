@@ -85,7 +85,7 @@ const iconNames = Object.keys(iconRegistry) as IconTypes[]
 /**
  * Icon Stories
  *
- * Icon system for the Beyond Equity investment platform.
+ * Icon system for the Tsuriai fish marketplace.
  * Includes all available icons, sizes, colors, and usage examples.
  */
 const meta = {

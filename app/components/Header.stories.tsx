@@ -149,9 +149,9 @@ const styles = StyleSheet.create({
 const BrandLogo = () => (
   <View style={styles.logoContainer}>
     <View style={styles.logoIcon}>
-      <Text style={styles.avatarText}>B</Text>
+      <Text style={styles.avatarText}>釣</Text>
     </View>
-    <Text style={styles.logoText}>Beyond</Text>
+    <Text style={styles.logoText}>Tsuriai</Text>
   </View>
 )
 
@@ -195,7 +195,7 @@ const StockHeader = ({ symbol, name }: { symbol: string; name: string }) => (
 /**
  * Header Stories
  *
- * Navigation headers for the Beyond Equity investment platform.
+ * Navigation headers for the Tsuriai fish marketplace.
  * Includes various configurations for different app screens.
  */
 const meta = {

@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
 /**
  * ListItem Stories
  *
- * Premium list rows for the Beyond Equity investment platform.
- * Inspired by Robinhood's stock lists and Wealthsimple's clean rows.
+ * Premium list rows for the Tsuriai fish marketplace.
+ * Inspired by Japanese fish market displays and auction listings.
  *
  * Design principles:
  * - Consistent 72px height for financial data rows
@@ -530,7 +530,7 @@ export const PortfolioHoldings: Story = {
 }
 
 // =============================================================================
-// PRIVATE INVESTMENTS (Beyond Equity specific)
+// PREMIUM CATCH (Tsuriai specific)
 // =============================================================================
 
 export const PrivateInvestments: Story = {
