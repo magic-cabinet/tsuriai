@@ -15,6 +15,18 @@ const styles = StyleSheet.create({
   },
 })
 
+// Demo fish images from Unsplash
+const DEMO_IMAGES = {
+  tuna: { uri: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=200&h=200&fit=crop" },
+  salmon: { uri: "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=200&h=200&fit=crop" },
+  swordfish: { uri: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=200&h=200&fit=crop" },
+  seaBream: { uri: "https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=200&h=200&fit=crop" },
+  squid: { uri: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=200&h=200&fit=crop" },
+  seafoodBox: { uri: "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=200&h=200&fit=crop" },
+  yellowtail: { uri: "https://images.unsplash.com/photo-1498654200943-1088dd4438ae?w=200&h=200&fit=crop" },
+  shark: { uri: "https://images.unsplash.com/photo-1560275619-4662e36fa65c?w=200&h=200&fit=crop" },
+}
+
 const meta = {
   title: "Domain/ChirashiCard",
   component: ChirashiCard,
@@ -39,6 +51,7 @@ export const Default: Story = {
   args: {
     title: "Premium Bluefin Tuna",
     japaneseTitle: "本マグロ 大トロ",
+    image: DEMO_IMAGES.tuna,
     price: 2500,
     originalPrice: 3800,
     priceUnit: "/kg",
@@ -60,6 +73,7 @@ export const RibbonBanner: Story = {
   args: {
     title: "Wild Salmon Fillet",
     japaneseTitle: "天然サーモン",
+    image: DEMO_IMAGES.salmon,
     price: 1800,
     originalPrice: 2400,
     priceUnit: "/kg",
@@ -80,6 +94,7 @@ export const StampBanner: Story = {
   args: {
     title: "Swordfish Steak",
     japaneseTitle: "メカジキ ステーキ",
+    image: DEMO_IMAGES.swordfish,
     price: 3200,
     priceUnit: "/kg",
     bannerText: "限定品",
@@ -102,6 +117,7 @@ export const UrgentDeal: Story = {
   args: {
     title: "Sea Bream",
     japaneseTitle: "真鯛",
+    image: DEMO_IMAGES.seaBream,
     price: 980,
     originalPrice: 1500,
     priceUnit: "/尾",
@@ -122,6 +138,7 @@ export const WithManyTags: Story = {
   args: {
     title: "Mixed Seafood Box",
     japaneseTitle: "海鮮セット",
+    image: DEMO_IMAGES.seafoodBox,
     price: 5500,
     originalPrice: 7800,
     priceUnit: "/箱",
@@ -144,6 +161,7 @@ export const NoBanner: Story = {
   args: {
     title: "Yellowtail",
     japaneseTitle: "ハマチ",
+    image: DEMO_IMAGES.yellowtail,
     price: 1200,
     priceUnit: "/kg",
     origin: "鹿児島",
@@ -160,8 +178,35 @@ export const SimplePrice: Story = {
   args: {
     title: "Fresh Squid",
     japaneseTitle: "スルメイカ",
+    image: DEMO_IMAGES.squid,
     price: 450,
     priceUnit: "/杯",
+    onPress: () => console.log("Card pressed"),
+  },
+}
+
+export const SharkFin: Story = {
+  name: "Shark Fin Special",
+  args: {
+    title: "Blue Shark",
+    japaneseTitle: "ヨシキリザメ",
+    image: DEMO_IMAGES.shark,
+    price: 8500,
+    originalPrice: 12000,
+    priceUnit: "/kg",
+    bannerText: "希少入荷",
+    bannerStyle: "burst",
+    discountPercent: 29,
+    origin: "気仙沼",
+    grade: "最高級",
+    weight: "25kg",
+    tags: [
+      { text: "希少", color: "purple" },
+      { text: "高級", color: "red" },
+    ],
+    remainingStock: 2,
+    endDate: new Date(Date.now() + 1 * 60 * 60 * 1000),
+    bidCount: 31,
     onPress: () => console.log("Card pressed"),
   },
 }
@@ -173,6 +218,7 @@ export const MultipleCards: Story = {
       <ChirashiCard
         title="Premium Tuna"
         japaneseTitle="本マグロ"
+        image={DEMO_IMAGES.tuna}
         price={2500}
         originalPrice={3800}
         priceUnit="/kg"
@@ -187,6 +233,7 @@ export const MultipleCards: Story = {
       <ChirashiCard
         title="Wild Salmon"
         japaneseTitle="天然サーモン"
+        image={DEMO_IMAGES.salmon}
         price={1800}
         priceUnit="/kg"
         bannerText="FRESH"
@@ -196,16 +243,17 @@ export const MultipleCards: Story = {
         bidCount={5}
       />
       <ChirashiCard
-        title="Sea Bream"
-        japaneseTitle="真鯛"
-        price={980}
-        originalPrice={1500}
-        priceUnit="/尾"
-        bannerText="限定"
+        title="Blue Shark"
+        japaneseTitle="ヨシキリザメ"
+        image={DEMO_IMAGES.shark}
+        price={8500}
+        originalPrice={12000}
+        priceUnit="/kg"
+        bannerText="希少"
         bannerStyle="stamp"
-        discountPercent={35}
-        remainingStock={1}
-        endDate={new Date(Date.now() + 5 * 60 * 1000)}
+        discountPercent={29}
+        remainingStock={2}
+        endDate={new Date(Date.now() + 1 * 60 * 60 * 1000)}
       />
     </View>
   ),
