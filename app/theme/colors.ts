@@ -1,66 +1,118 @@
 /**
- * Color palette based on the BeyondAlpha design system from Figma.
- * Uses Slate color scale for neutrals and brand teal (#7EA1C4) as primary accent.
+ * Seaside Color Palette for tsuriai fishing app.
+ * Evokes the feeling of being at the beach, getting a good deal on fresh catch.
+ * Ocean blues for trust, sandy neutrals for warmth, seafoam for success.
  */
 const palette = {
-  // Slate scale from Figma design system
-  neutral100: "#FFFFFF",
-  neutral200: "#F1F5F9", // slate/100
-  neutral300: "#E2E8F0", // slate/200
-  neutral400: "#CBD5E1", // slate/300
-  neutral500: "#94A3B8", // slate/400
-  neutral600: "#64748B", // slate/500
-  neutral700: "#475569", // slate/600
-  neutral800: "#334155", // slate/700
-  neutral900: "#0F172A", // slate/900 - primary text color
+  // Ocean Blues - Primary brand colors (trust, depth, the sea)
+  ocean100: "#E0F2FE", // morning sky
+  ocean200: "#BAE6FD", // shallow water
+  ocean300: "#7DD3FC", // bright sea
+  ocean400: "#38BDF8", // clear water
+  ocean500: "#0EA5E9", // deep ocean - main brand
+  ocean600: "#0284C7", // deep sea
 
-  // Brand teal - primary accent from BeyondAlpha
-  primary100: "#E0EBF2",
-  primary200: "#C1D7E5",
-  primary300: "#A2C3D8",
-  primary400: "#7EA1C4", // Brand color from assets
-  primary500: "#5B8AB5",
-  primary600: "#4A7A9E",
+  // Sandy Neutrals - Backgrounds and text (beach warmth)
+  sand100: "#FEFDFB", // white sand
+  sand200: "#FAF8F5", // beach
+  sand300: "#F5F0E8", // dry sand
+  sand400: "#E8DFD0", // wet sand
+  sand500: "#A89F91", // driftwood
+  sand600: "#78716C", // rocks
+  sand700: "#57534E", // dark rock
+  sand800: "#292524", // night shore
+  sand900: "#1C1917", // deep night
 
-  // Secondary - muted slate
-  secondary100: "#F8FAFC",
-  secondary200: "#F1F5F9",
-  secondary300: "#E2E8F0",
-  secondary400: "#CBD5E1",
-  secondary500: "#94A3B8",
+  // Seafoam - Success, good deals, fresh catch
+  seafoam100: "#CCFBF1",
+  seafoam200: "#99F6E4",
+  seafoam300: "#5EEAD4", // main success
+  seafoam400: "#2DD4BF",
+  seafoam500: "#14B8A6",
 
-  // Accent - warm gold/amber for highlights
-  accent100: "#FEF3C7",
-  accent200: "#FDE68A",
-  accent300: "#FCD34D",
-  accent400: "#FBBF24",
-  accent500: "#F59E0B",
+  // Coral - Alerts, hot deals, urgency
+  coral100: "#FFE4E6",
+  coral200: "#FECDD3",
+  coral300: "#FDA4AF",
+  coral400: "#FB7185", // main alert
+  coral500: "#F43F5E",
 
-  // Asset type badge colors from Figma
-  badgeTeal: "#7EA1C4", // AVX - Concept
-  badgeGray: "#6B7280", // IPX - Internal
-  badgeSage: "#A3B18A", // IPL - Legacy
-  badgeCoral: "#E07A5F", // IPR - Rehab
-  badgeMint: "#81B29A", // JV1 - Joint Venture
+  // Sunset - Warm accents, golden hour
+  sunset100: "#FFEDD5",
+  sunset200: "#FED7AA",
+  sunset300: "#FDBA74",
+  sunset400: "#FB923C", // main accent
+  sunset500: "#F97316",
 
-  // Crypto brand colors
+  // Kelp - Fresh, organic, premium catch
+  kelp100: "#ECFCCB",
+  kelp200: "#D9F99D",
+  kelp300: "#BEF264",
+  kelp400: "#A3E635",
+  kelp500: "#84CC16", // fresh catch
+
+  // Legacy mappings for compatibility
+  neutral100: "#FEFDFB", // sand100
+  neutral200: "#FAF8F5", // sand200
+  neutral300: "#F5F0E8", // sand300
+  neutral400: "#E8DFD0", // sand400
+  neutral500: "#A89F91", // sand500
+  neutral600: "#78716C", // sand600
+  neutral700: "#57534E", // sand700
+  neutral800: "#292524", // sand800
+  neutral900: "#1C1917", // sand900
+
+  primary100: "#E0F2FE", // ocean100
+  primary200: "#BAE6FD", // ocean200
+  primary300: "#7DD3FC", // ocean300
+  primary400: "#0EA5E9", // ocean500
+  primary500: "#0284C7", // ocean600
+  primary600: "#0369A1", // darker ocean
+
+  // Badge colors - fish/auction status
+  badgeFresh: "#5EEAD4",   // seafoam - fresh catch
+  badgeHot: "#FB7185",     // coral - hot deal
+  badgePremium: "#84CC16", // kelp - premium
+  badgeStandard: "#38BDF8", // ocean - standard
+  badgeExpiring: "#FB923C", // sunset - expiring soon
+
+  // Legacy badge mappings
+  badgeTeal: "#0EA5E9",
+  badgeGray: "#78716C",
+  badgeSage: "#84CC16",
+  badgeCoral: "#FB7185",
+  badgeMint: "#5EEAD4",
+
+  // Status colors
+  angry100: "#FFE4E6",
+  angry500: "#F43F5E",
+
+  // Accent (sunset for highlights)
+  accent100: "#FFEDD5",
+  accent200: "#FED7AA",
+  accent300: "#FDBA74",
+  accent400: "#FB923C",
+  accent500: "#F97316",
+
+  // Secondary (ocean variants)
+  secondary100: "#E0F2FE",
+  secondary200: "#BAE6FD",
+  secondary300: "#7DD3FC",
+  secondary400: "#38BDF8",
+  secondary500: "#0EA5E9",
+
+  // Crypto brand colors (keeping for compatibility)
   cryptoBitcoin: "#F7931A",
   cryptoEthereum: "#627EEA",
 
-  // Status colors
-  angry100: "#FEE2E2",
-  angry500: "#EF4444",
-
-  // Overlays
-  overlay20: "rgba(15, 23, 42, 0.2)",
-  overlay50: "rgba(15, 23, 42, 0.5)",
+  // Overlays (darker sand tones)
+  overlay20: "rgba(28, 25, 23, 0.2)",
+  overlay50: "rgba(28, 25, 23, 0.5)",
 } as const
 
 export const colors = {
   /**
    * The palette is available to use, but prefer using the name.
-   * This is only included for rare, one-off cases. Try to use
-   * semantic names as much as possible.
    */
   palette,
   /**
@@ -68,47 +120,59 @@ export const colors = {
    */
   transparent: "rgba(0, 0, 0, 0)",
   /**
-   * The default text color in many components.
-   * Using slate/900 from Figma design system.
+   * The default text color - deep night shore.
    */
-  text: palette.neutral900,
+  text: palette.sand900,
   /**
-   * Secondary text information.
-   * Using slate/600 from Figma design system.
+   * Secondary text - dark rock.
    */
-  textDim: palette.neutral700,
+  textDim: palette.sand700,
   /**
-   * Subtle text for helper text and captions.
-   * Using slate/500 from Figma design system.
+   * Subtle text - driftwood.
    */
-  textSubtle: palette.neutral600,
+  textSubtle: palette.sand600,
   /**
-   * The default color of the screen background.
+   * Screen background - white sand.
    */
-  background: palette.neutral100,
+  background: palette.sand100,
   /**
-   * The default border color.
-   * Using slate/200 from Figma design system.
+   * Border color - dry sand.
    */
-  border: palette.neutral300,
+  border: palette.sand300,
   /**
-   * The main tinting color - brand teal.
+   * Main tint - deep ocean blue.
    */
-  tint: palette.primary400,
+  tint: palette.ocean500,
   /**
-   * The inactive tinting color.
+   * Inactive tint - wet sand.
    */
-  tintInactive: palette.neutral400,
+  tintInactive: palette.sand400,
   /**
-   * A subtle color used for lines.
+   * Separators - dry sand.
    */
-  separator: palette.neutral300,
+  separator: palette.sand300,
   /**
-   * Error messages.
+   * Success - seafoam green (good deal!).
    */
-  error: palette.angry500,
+  success: palette.seafoam300,
   /**
-   * Error Background.
+   * Warning - sunset orange (expiring).
    */
-  errorBackground: palette.angry100,
+  warning: palette.sunset400,
+  /**
+   * Error - coral red.
+   */
+  error: palette.coral500,
+  /**
+   * Error background.
+   */
+  errorBackground: palette.coral100,
+  /**
+   * Fresh/premium - kelp green.
+   */
+  fresh: palette.kelp500,
+  /**
+   * Hot deal - coral.
+   */
+  hot: palette.coral400,
 } as const

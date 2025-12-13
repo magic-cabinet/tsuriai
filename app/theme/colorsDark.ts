@@ -1,53 +1,110 @@
 /**
- * Dark theme color palette based on the BeyondAlpha design system.
- * Inverted Slate scale for dark mode with brand teal (#7EA1C4) as primary accent.
+ * Seaside Color Palette - Dark Mode for tsuriai fishing app.
+ * Same palette structure as light mode but adjusted for dark backgrounds.
  */
 const palette = {
-  // Inverted Slate scale for dark mode
-  neutral900: "#FFFFFF",
-  neutral800: "#F1F5F9", // slate/100
-  neutral700: "#E2E8F0", // slate/200
-  neutral600: "#CBD5E1", // slate/300
-  neutral500: "#94A3B8", // slate/400
-  neutral400: "#64748B", // slate/500
-  neutral300: "#475569", // slate/600
-  neutral200: "#334155", // slate/700
-  neutral100: "#0F172A", // slate/900 - background color
+  // Ocean Blues - Primary brand colors (adjusted for dark mode)
+  ocean100: "#0C4A6E", // deep ocean (inverted)
+  ocean200: "#075985", // deep sea
+  ocean300: "#0369A1", // medium ocean
+  ocean400: "#0284C7", // bright ocean
+  ocean500: "#0EA5E9", // clear water - main brand
+  ocean600: "#38BDF8", // shallow water (bright for dark mode)
 
-  // Brand teal - primary accent (lighter for dark mode)
-  primary100: "#4A7A9E",
-  primary200: "#5B8AB5",
-  primary300: "#7EA1C4", // Brand color
-  primary400: "#A2C3D8",
-  primary500: "#C1D7E5",
-  primary600: "#E0EBF2",
+  // Sandy Neutrals - Backgrounds and text (inverted for dark mode)
+  sand100: "#1C1917", // dark background
+  sand200: "#292524", // slightly lighter dark
+  sand300: "#44403C", // dark gray
+  sand400: "#57534E", // medium gray
+  sand500: "#78716C", // light gray text
+  sand600: "#A8A29E", // lighter gray
+  sand700: "#D6D3D1", // very light gray
+  sand800: "#F5F5F4", // near white
+  sand900: "#FAFAF9", // white text
 
-  // Secondary - slate tones for dark mode
-  secondary100: "#1E293B", // slate/800
-  secondary200: "#334155", // slate/700
-  secondary300: "#475569", // slate/600
-  secondary400: "#64748B", // slate/500
-  secondary500: "#94A3B8", // slate/400
+  // Seafoam - Success, good deals (adjusted for dark mode visibility)
+  seafoam100: "#042F2E", // dark seafoam
+  seafoam200: "#134E4A", // deep seafoam
+  seafoam300: "#2DD4BF", // bright seafoam
+  seafoam400: "#5EEAD4", // light seafoam
+  seafoam500: "#99F6E4", // very light seafoam
 
-  // Accent - warm gold/amber (adjusted for dark mode visibility)
-  accent100: "#78350F",
-  accent200: "#92400E",
-  accent300: "#B45309",
-  accent400: "#D97706",
-  accent500: "#F59E0B",
+  // Coral - Alerts, hot deals (adjusted for dark mode)
+  coral100: "#4C0519", // dark coral
+  coral200: "#881337", // deep coral
+  coral300: "#E11D48", // bright coral
+  coral400: "#FB7185", // light coral
+  coral500: "#FDA4AF", // very light coral
 
-  // Asset type badge colors (same as light mode for consistency)
-  badgeTeal: "#7EA1C4", // AVX - Concept
-  badgeGray: "#9CA3AF", // IPX - Internal (lighter for dark mode)
-  badgeSage: "#A3B18A", // IPL - Legacy
-  badgeCoral: "#E07A5F", // IPR - Rehab
-  badgeMint: "#81B29A", // JV1 - Joint Venture
+  // Sunset - Warm accents (adjusted for dark mode)
+  sunset100: "#431407", // dark sunset
+  sunset200: "#7C2D12", // deep sunset
+  sunset300: "#EA580C", // bright sunset
+  sunset400: "#FB923C", // light sunset
+  sunset500: "#FDBA74", // very light sunset
 
-  // Status colors (adjusted for dark mode)
-  angry100: "#450A0A",
-  angry500: "#F87171",
+  // Kelp - Fresh, organic (adjusted for dark mode)
+  kelp100: "#1A2E05", // dark kelp
+  kelp200: "#365314", // deep kelp
+  kelp300: "#65A30D", // bright kelp
+  kelp400: "#84CC16", // light kelp
+  kelp500: "#A3E635", // very light kelp
 
-  // Overlays
+  // Legacy mappings for compatibility
+  neutral100: "#1C1917", // sand100
+  neutral200: "#292524", // sand200
+  neutral300: "#44403C", // sand300
+  neutral400: "#57534E", // sand400
+  neutral500: "#78716C", // sand500
+  neutral600: "#A8A29E", // sand600
+  neutral700: "#D6D3D1", // sand700
+  neutral800: "#F5F5F4", // sand800
+  neutral900: "#FAFAF9", // sand900
+
+  primary100: "#0C4A6E", // ocean100
+  primary200: "#075985", // ocean200
+  primary300: "#0369A1", // ocean300
+  primary400: "#0EA5E9", // ocean500
+  primary500: "#38BDF8", // ocean600
+  primary600: "#7DD3FC", // brighter ocean
+
+  // Badge colors - fish/auction status (bright for dark mode)
+  badgeFresh: "#2DD4BF",   // seafoam - fresh catch
+  badgeHot: "#FB7185",     // coral - hot deal
+  badgePremium: "#84CC16", // kelp - premium
+  badgeStandard: "#38BDF8", // ocean - standard
+  badgeExpiring: "#FB923C", // sunset - expiring soon
+
+  // Legacy badge mappings
+  badgeTeal: "#0EA5E9",
+  badgeGray: "#78716C",
+  badgeSage: "#84CC16",
+  badgeCoral: "#FB7185",
+  badgeMint: "#2DD4BF",
+
+  // Status colors
+  angry100: "#4C0519",
+  angry500: "#FDA4AF",
+
+  // Accent (sunset for highlights)
+  accent100: "#431407",
+  accent200: "#7C2D12",
+  accent300: "#EA580C",
+  accent400: "#FB923C",
+  accent500: "#FDBA74",
+
+  // Secondary (ocean variants)
+  secondary100: "#0C4A6E",
+  secondary200: "#075985",
+  secondary300: "#0369A1",
+  secondary400: "#0284C7",
+  secondary500: "#0EA5E9",
+
+  // Crypto brand colors (keeping for compatibility)
+  cryptoBitcoin: "#F7931A",
+  cryptoEthereum: "#627EEA",
+
+  // Overlays (lighter for dark mode)
   overlay20: "rgba(255, 255, 255, 0.2)",
   overlay50: "rgba(255, 255, 255, 0.5)",
 } as const
@@ -55,8 +112,6 @@ const palette = {
 export const colors = {
   /**
    * The palette is available to use, but prefer using the name.
-   * This is only included for rare, one-off cases. Try to use
-   * semantic names as much as possible.
    */
   palette,
   /**
@@ -64,47 +119,59 @@ export const colors = {
    */
   transparent: "rgba(0, 0, 0, 0)",
   /**
-   * The default text color in many components.
-   * Using white for dark mode.
+   * The default text color - near white for dark mode.
    */
-  text: palette.neutral900,
+  text: palette.sand900,
   /**
-   * Secondary text information.
-   * Lighter slate for dark mode.
+   * Secondary text - light gray.
    */
-  textDim: palette.neutral700,
+  textDim: palette.sand700,
   /**
-   * Subtle text for helper text and captions.
+   * Subtle text - medium gray.
    */
-  textSubtle: palette.neutral600,
+  textSubtle: palette.sand600,
   /**
-   * The default color of the screen background.
-   * Dark slate for dark mode.
+   * Screen background - dark.
    */
-  background: palette.neutral100,
+  background: palette.sand100,
   /**
-   * The default border color.
-   * Darker slate for dark mode visibility.
+   * Border color - dark gray.
    */
-  border: palette.neutral300,
+  border: palette.sand300,
   /**
-   * The main tinting color - brand teal (lighter variant for dark mode).
+   * Main tint - ocean blue.
    */
-  tint: palette.primary400,
+  tint: palette.ocean500,
   /**
-   * The inactive tinting color.
+   * Inactive tint - medium gray.
    */
-  tintInactive: palette.neutral400,
+  tintInactive: palette.sand400,
   /**
-   * A subtle color used for lines.
+   * Separators - dark gray.
    */
-  separator: palette.neutral300,
+  separator: palette.sand300,
   /**
-   * Error messages.
+   * Success - seafoam green (good deal!).
    */
-  error: palette.angry500,
+  success: palette.seafoam300,
   /**
-   * Error Background.
+   * Warning - sunset orange (expiring).
    */
-  errorBackground: palette.angry100,
+  warning: palette.sunset400,
+  /**
+   * Error - coral red.
+   */
+  error: palette.coral500,
+  /**
+   * Error background.
+   */
+  errorBackground: palette.coral100,
+  /**
+   * Fresh/premium - kelp green.
+   */
+  fresh: palette.kelp400,
+  /**
+   * Hot deal - coral.
+   */
+  hot: palette.coral400,
 } as const
