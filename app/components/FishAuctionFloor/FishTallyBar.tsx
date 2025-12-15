@@ -49,7 +49,7 @@ export function FishTallyBar(props: FishTallyBarProps) {
   return (
     <View style={themed($container)}>
       <View style={themed($header)}>
-        <Text text="MARKET TALLY 市場集計" weight="bold" style={themed($headerText)} />
+        <Text text="市場集計 MARKET TALLY" weight="bold" style={themed($headerText)} />
         <View style={themed($legend)}>
           <View style={themed($legendItem)}>
             <View style={[themed($legendDot), { backgroundColor: theme.colors.palette.seafoam400 }]} />
@@ -124,10 +124,12 @@ function TallyItemRow({ item }: { item: TallyItem }) {
     <View style={themed($tallyRow)}>
       {/* Species */}
       <View style={themed($speciesCol)}>
-        <Text text={item.species} size="xs" weight="bold" style={themed($speciesName)} numberOfLines={1} />
-        {item.speciesJapanese && (
-          <Text text={item.speciesJapanese} size="xxs" style={themed($speciesJp)} />
+        {item.speciesJapanese ? (
+          <Text text={item.speciesJapanese} size="xs" weight="bold" style={themed($speciesName)} numberOfLines={1} />
+        ) : (
+          <Text text={item.species} size="xs" weight="bold" style={themed($speciesName)} numberOfLines={1} />
         )}
+        <Text text={item.species} size="xxs" style={themed($speciesEn)} numberOfLines={1} />
       </View>
 
       {/* Bar Chart */}
@@ -284,7 +286,7 @@ const $speciesName: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand800,
 })
 
-const $speciesJp: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $speciesEn: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand500,
 })
 

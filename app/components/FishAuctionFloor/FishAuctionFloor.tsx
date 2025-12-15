@@ -231,7 +231,7 @@ export function FishAuctionFloor(props: FishAuctionFloorProps) {
 
           {/* Fish Grid */}
           <View style={themed($sectionStacked)}>
-            <Text text="AUCTION FLOOR 競り場" weight="bold" style={themed($sectionTitle)} />
+            <Text text="競り場 AUCTION FLOOR" weight="bold" style={themed($sectionTitle)} />
             <FishDotGrid
               fish={fish}
               selectedId={selectedId}
@@ -274,7 +274,7 @@ export function FishAuctionFloor(props: FishAuctionFloorProps) {
 
           {/* Fish Grid */}
           <View style={themed($gridSection)}>
-            <Text text="AUCTION FLOOR 競り場" weight="bold" style={themed($sectionTitle)} />
+            <Text text="競り場 AUCTION FLOOR" weight="bold" style={themed($sectionTitle)} />
             <FishDotGrid
               fish={fish}
               selectedId={selectedId}

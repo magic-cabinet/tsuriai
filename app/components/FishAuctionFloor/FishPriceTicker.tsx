@@ -107,18 +107,29 @@ function TickerItemView({ item, compact }: TickerItemViewProps) {
     <View style={[themed($tickerItem), compact && themed($tickerItemCompact)]}>
       {/* Species */}
       <View style={themed($speciesContainer)}>
-        <Text
-          text={item.species}
-          size="xs"
-          weight="bold"
-          style={themed($speciesText)}
-          numberOfLines={1}
-        />
-        {!compact && item.speciesJapanese && (
+        {item.speciesJapanese ? (
           <Text
             text={item.speciesJapanese}
+            size="xs"
+            weight="bold"
+            style={themed($speciesText)}
+            numberOfLines={1}
+          />
+        ) : (
+          <Text
+            text={item.species}
+            size="xs"
+            weight="bold"
+            style={themed($speciesText)}
+            numberOfLines={1}
+          />
+        )}
+        {!compact && (
+          <Text
+            text={item.species}
             size="xxs"
-            style={themed($japaneseText)}
+            style={themed($englishText)}
+            numberOfLines={1}
           />
         )}
       </View>
@@ -243,7 +254,7 @@ const $speciesText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand100,
 })
 
-const $japaneseText: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $englishText: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand400,
 })
 

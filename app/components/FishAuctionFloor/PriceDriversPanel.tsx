@@ -75,7 +75,7 @@ export function PriceDriversPanel(props: PriceDriversPanelProps) {
   return (
     <View style={themed($container)}>
       <View style={themed($header)}>
-        <Text text="PRICE DRIVERS 価格要因" weight="bold" style={themed($headerText)} />
+        <Text text="価格要因 PRICE DRIVERS" weight="bold" style={themed($headerText)} />
         <Text text="Scraped live" size="xxs" style={themed($liveText)} />
       </View>
       <View style={themed($driversList)}>
@@ -133,10 +133,12 @@ function DriverRow({ driver }: { driver: PriceDriver }) {
       {/* Name & Value */}
       <View style={themed($driverInfo)}>
         <View style={themed($driverNameRow)}>
-          <Text text={driver.name} size="xs" weight="medium" style={themed($driverName)} numberOfLines={1} />
-          {driver.nameJapanese && (
-            <Text text={driver.nameJapanese} size="xxs" style={themed($driverNameJp)} />
+          {driver.nameJapanese ? (
+            <Text text={driver.nameJapanese} size="xs" weight="medium" style={themed($driverName)} numberOfLines={1} />
+          ) : (
+            <Text text={driver.name} size="xs" weight="medium" style={themed($driverName)} numberOfLines={1} />
           )}
+          <Text text={driver.name} size="xxs" style={themed($driverNameEn)} numberOfLines={1} />
         </View>
         <Text
           text={`${driver.currentValue.toLocaleString()} ${driver.unit}`}
@@ -272,7 +274,7 @@ const $driverName: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand800,
 })
 
-const $driverNameJp: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $driverNameEn: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand500,
 })
 

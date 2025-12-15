@@ -79,8 +79,8 @@ export function FishDetailPanel(props: FishDetailPanelProps) {
     return (
       <View style={themed($emptyContainer)}>
         <Icon icon="components" size={48} color={theme.colors.palette.sand300} />
-        <Text text="Select a fish" size="sm" style={themed($emptyText)} />
-        <Text text="魚を選択してください" size="xs" style={themed($emptyTextJp)} />
+        <Text text="魚を選択してください" size="sm" style={themed($emptyText)} />
+        <Text text="Select a fish" size="xs" style={themed($emptyTextEn)} />
       </View>
     )
   }
@@ -95,10 +95,12 @@ export function FishDetailPanel(props: FishDetailPanelProps) {
       {/* HEADER BAR - Species + Status */}
       <View style={themed($headerBar)}>
         <View style={themed($speciesBlock)}>
-          <Text text={fish.species.toUpperCase()} weight="bold" style={themed($speciesText)} />
-          {fish.speciesJapanese && (
-            <Text text={fish.speciesJapanese} style={themed($speciesJp)} />
+          {fish.speciesJapanese ? (
+            <Text text={fish.speciesJapanese} weight="bold" style={themed($speciesText)} />
+          ) : (
+            <Text text={fish.species.toUpperCase()} weight="bold" style={themed($speciesText)} />
           )}
+          <Text text={fish.species.toUpperCase()} style={themed($speciesEn)} />
         </View>
         <View style={themed($statusBadges)}>
           <View style={[themed($badge), { backgroundColor: theme.colors.palette[gradeColor.bg as keyof typeof theme.colors.palette] }]}>
@@ -262,7 +264,7 @@ const $emptyText: ThemedStyle<TextStyle> = ({ colors }) => ({
   marginTop: 8,
 })
 
-const $emptyTextJp: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $emptyTextEn: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand400,
 })
 
@@ -287,7 +289,7 @@ const $speciesText: ThemedStyle<TextStyle> = ({ colors }) => ({
   letterSpacing: 1,
 })
 
-const $speciesJp: ThemedStyle<TextStyle> = ({ colors }) => ({
+const $speciesEn: ThemedStyle<TextStyle> = ({ colors }) => ({
   color: colors.palette.sand200,
   fontSize: 12,
 })
