@@ -12,6 +12,9 @@ import { useAuth } from "@/context/AuthContext"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
 import { LoginScreen } from "@/screens/LoginScreen"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
+import { FishDetailScreen } from "@/screens/buyer/FishDetailScreen"
+import { CheckoutScreen } from "@/screens/buyer/CheckoutScreen"
+import { CreateListingScreen } from "@/screens/seller/CreateListingScreen"
 import { useAppTheme } from "@/theme/context"
 
 import { BuyerNavigator } from "./BuyerNavigator"
@@ -62,6 +65,11 @@ const AppStack = () => {
           <Stack.Screen name="Seller" component={SellerNavigator} />
           <Stack.Screen name="Buyer" component={BuyerNavigator} />
           <Stack.Screen name="Demo" component={DemoNavigator} />
+          {/* Buyer detail screens */}
+          <Stack.Screen name="FishDetail" component={FishDetailScreen} />
+          <Stack.Screen name="Checkout" component={CheckoutScreen} />
+          {/* Seller detail screens */}
+          <Stack.Screen name="CreateListing" component={CreateListingScreen} />
         </>
       ) : (
         <>

@@ -1,7 +1,10 @@
 import { View, ViewStyle, ScrollView, TextStyle } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { Screen, Text, Header, Button } from "@/components"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
+import type { AppStackParamList } from "@/navigators/navigationTypes"
 
 interface InventoryItem {
   id: string
@@ -25,6 +28,7 @@ const mockInventory: InventoryItem[] = [
 export function InventoryScreen() {
   const { themed, theme } = useAppTheme()
   const { colors } = theme
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
 
   const getStatusColor = (status: InventoryItem["status"]) => {
     switch (status) {
@@ -71,7 +75,7 @@ export function InventoryScreen() {
 
         {/* Quick Actions */}
         <View style={themed($quickActions)}>
-          <Button text="＋ 新規登録" preset="filled" style={themed($actionButton)} />
+          <Button text="＋ 新規登録" preset="filled" style={themed($actionButton)} onPress={() => navigation.navigate("CreateListing")} />
           <Button text="一括編集" preset="default" style={themed($actionButton)} />
         </View>
 

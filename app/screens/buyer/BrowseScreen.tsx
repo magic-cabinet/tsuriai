@@ -1,7 +1,10 @@
 import { View, ViewStyle, ScrollView, Pressable, TextStyle } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { Screen, Text, Header, TextField, Button } from "@/components"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
+import type { AppStackParamList } from "@/navigators/navigationTypes"
 
 interface FishListing {
   id: string
@@ -30,6 +33,7 @@ const categories = ["すべて", "マグロ類", "白身魚", "青魚", "甲殻�
 export function BrowseScreen() {
   const { themed, theme } = useAppTheme()
   const { colors } = theme
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
 
   return (
     <Screen preset="fixed" safeAreaEdges={["top"]}>
@@ -74,7 +78,7 @@ export function BrowseScreen() {
         {/* Listings Grid */}
         <View style={themed($listingsGrid)}>
           {mockListings.map((listing) => (
-            <Pressable key={listing.id} style={themed($listingCard)}>
+            <Pressable key={listing.id} style={themed($listingCard)} onPress={() => navigation.navigate("FishDetail", { fishId: listing.id })}>
               {/* Image placeholder */}
               <View style={themed($listingImage)}>
                 {listing.isAuction && (

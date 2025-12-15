@@ -1,7 +1,10 @@
 import { View, ViewStyle, ScrollView, TextStyle } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { Screen, Text, Header, Button, EmptyState } from "@/components"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
+import type { AppStackParamList } from "@/navigators/navigationTypes"
 
 interface CartItem {
   id: string
@@ -22,6 +25,7 @@ const mockCartItems: CartItem[] = [
 export function CartScreen() {
   const { themed, theme } = useAppTheme()
   const { colors } = theme
+  const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
 
   const subtotal = mockCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const shipping = 2500
@@ -112,7 +116,7 @@ export function CartScreen() {
           <Text size="xs" text="合計" style={themed($checkoutLabel)} />
           <Text weight="bold" size="xl" text={`¥${total.toLocaleString()}`} />
         </View>
-        <Button text="注文を確定する" preset="filled" style={themed($checkoutButton)} />
+        <Button text="注文を確定する" preset="filled" style={themed($checkoutButton)} onPress={() => navigation.navigate("Checkout")} />
       </View>
     </Screen>
   )
